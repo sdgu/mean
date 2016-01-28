@@ -5,8 +5,15 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var mongoose = require("mongoose");
+var dburi = "mongodb://<user>:<pass>@ds039145.mongolab.com:39145/ocappa";
+var connextion = mongoose.connect(dburi);
+var db = connextion.connection;
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var posts = require("./models/posts");
+var comments = require("./models/comments");
 
 var app = express();
 
