@@ -8,6 +8,17 @@ app.factory("posts", [function()
   {
     posts: []
   };
+
+  o.create = function(post)
+  {
+    return $http.post("/posts", post).success(function(data)
+    {
+      o.posts.push(data);
+    });
+  };
+
+
+
   return o;
 }]);
 
