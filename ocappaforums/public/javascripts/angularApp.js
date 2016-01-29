@@ -1,6 +1,75 @@
 var app = angular.module('OCAPForums', ["ui.router"]);
 
 
+app.factory("auth", ["$http", "$window", function($http, $window)
+{
+  var auth = {};
+
+  auth.saveToken = function(token)
+  {
+    $window.localStorage["ocappaforums-token"] = token;
+  }
+
+  auth.getToken = function()
+  {
+    return $window.localStorage["ocappaforums-token"];
+  }
+
+  auth.isLoggedIn = function()
+  {
+    var token = auth.getToken();
+
+    if (token)
+    {
+      var payload = JSON.parse($window.atob(token.split(".")[1]));
+
+
+      return payload.exp > Date.now() / 1000;
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+  auth.currentUser = function()
+  {
+    if (auth.isLoggedIn())
+    {
+      var token = auth.getToken();
+      var payload = JSON.parse($window.atob(token.split(".")[1]));
+
+      return payload.username;
+    }
+  }
+
+  auth.register = function(user)
+  {
+    return $http.post("/register", user).success(function(data)
+    {
+      auth.saveToken(data.token);
+    });
+  }
+
+  auth.logIn = function(user)
+  {
+    return $http.post("/login", user).success(function(data)
+    {
+      auth.saveToken(data.token);
+    });
+  }
+
+  auth.logOut = function()
+  {
+    $window.localStorage.removeItem("ocappaforums-token");
+    $window.location.reload();
+  }
+
+
+
+  return auth;
+}])
+
 
 app.factory("posts", ["$http", function($http)
 {
@@ -11,8 +80,10 @@ app.factory("posts", ["$http", function($http)
 
   o.getAll = function()
   {
+    
     return $http.get("/posts").success(function(data)
     {
+      //alert("getAllInReturn");
       angular.copy(data, o.posts);
     });
   }
@@ -20,10 +91,18 @@ app.factory("posts", ["$http", function($http)
 
   o.create = function(post)
   {
+    
+    alert(post.title);
+
     return $http.post("/posts", post).success(function(data)
     {
+      alert("ah a post created");
+      alert(data.author);
       o.posts.push(data);
     });
+
+  
+
   };
 
   o.get = function(id)
@@ -46,8 +125,9 @@ app.factory("posts", ["$http", function($http)
 
 app.controller('MainCtrl', [
 '$scope',
+'auth',
 'posts',
-function($scope, posts)
+function($scope, auth, posts)
 {
   $scope.test = 'Hello world!';
   $scope.posts = posts.posts;
@@ -63,11 +143,31 @@ function($scope, posts)
   // }
   // ];
 
+//   app.controller('NavCtrl', [
+// '$scope',
+// 'auth',
+// function($scope, auth){
+
+
+
+//   $scope.isLoggedIn = auth.isLoggedIn;
+//   $scope.currentUser = auth.currentUser;
+//   $scope.logOut = auth.logOut;
+// }]);
+
+  $scope.currentUser = auth.currentUser;
+
+  //alert(auth.currentUser);
+  $("#author").text($scope.currentUser);
 
   $scope.addPost = function()
   {
+
+    //alert($scope.posts[0].title);
+
     if (!$scope.title || $scope.title === "")
     {
+
       return;
     }
 
@@ -75,8 +175,9 @@ function($scope, posts)
     {
       title: $scope.title,
       link: $scope.link,
+      author: $("#author").text(),
     });
-
+    //alert($scope.title);
   	// $scope.posts.push(
   	// {
   	// 	title: $scope.title,
@@ -133,12 +234,57 @@ app.controller("PostsCtrl",
         $scope.body = "";
       };
     }
-
-
-
-
-
   ]);
+
+app.controller("AuthCtrl",
+  [
+    "$scope",
+    "$state",
+    "auth",
+    function($scope, $state, auth)
+    {
+      $scope.user = {};
+
+      $scope.register = function()
+      {
+        auth.register($scope.user).error(function(error)
+        {
+          $scope.error = error;
+        }).then(function()
+        {
+          $state.go("home");
+        });
+      };
+
+      $scope.logIn = function()
+      {
+        auth.logIn($scope.user).error(function(error)
+        {
+          $scope.error = error;
+        }).then(function()
+        {
+          $state.go("home");
+        });
+      }
+
+
+
+    }
+
+  ])
+
+app.controller('NavCtrl', [
+'$scope',
+'auth',
+function($scope, auth){
+
+
+
+  $scope.isLoggedIn = auth.isLoggedIn;
+  $scope.currentUser = auth.currentUser;
+  $scope.logOut = auth.logOut;
+}]);
+
 
 app.config([
   "$stateProvider",
@@ -172,6 +318,29 @@ app.config([
         }]
       }
     });
+
+      $stateProvider.state('login', {
+        url: '/login',
+        templateUrl: '/login.html',
+        controller: 'AuthCtrl',
+        onEnter: ['$state', 'auth', function($state, auth){
+          if(auth.isLoggedIn()){
+            $state.go('home');
+          }
+        }]
+      });
+      $stateProvider.state('register', {
+        url: '/register',
+        templateUrl: '/register.html',
+        controller: 'AuthCtrl',
+        onEnter: ['$state', 'auth', function($state, auth){
+          if(auth.isLoggedIn()){
+            $state.go('home');
+          }
+        }]
+      });
+
+
 
     $urlRouterProvider.otherwise("home");
   }
