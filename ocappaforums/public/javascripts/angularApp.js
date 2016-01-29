@@ -62,7 +62,7 @@ app.factory("auth", ["$http", "$window", function($http, $window)
   auth.logOut = function()
   {
     $window.localStorage.removeItem("ocappaforums-token");
-    $window.location.reload();
+    //$window.location.reload();
   }
 
 
@@ -71,7 +71,7 @@ app.factory("auth", ["$http", "$window", function($http, $window)
 }])
 
 
-app.factory("posts", ["$http", function($http)
+app.factory("posts", ["$http", 'auth', function($http, auth)
 {
   var o = 
   {
@@ -92,12 +92,15 @@ app.factory("posts", ["$http", function($http)
   o.create = function(post)
   {
     
-    alert(post.title);
+    //alert(post.title);
 
-    return $http.post("/posts", post).success(function(data)
+    return $http.post("/posts", post, 
+      {
+        headers: {Authorization: "Bearer " + auth.getToken()}
+      }).success(function(data)
     {
-      alert("ah a post created");
-      alert(data.author);
+      //alert("ah a post created");
+      //alert(data.author);
       o.posts.push(data);
     });
 
@@ -115,7 +118,10 @@ app.factory("posts", ["$http", function($http)
 
   o.addComment = function(id, comment)
   {
-    return $http.post("/posts/" + id + "/comments", comment);
+    return $http.post("/posts/" + id + "/comments", comment, 
+      {
+        headers: {Authorization: "Bearer " + auth.getToken()}
+      });
   }
 
   return o;
@@ -154,11 +160,13 @@ function($scope, auth, posts)
 //   $scope.currentUser = auth.currentUser;
 //   $scope.logOut = auth.logOut;
 // }]);
-
+  $scope.isLoggedIn = auth.isLoggedIn;
   $scope.currentUser = auth.currentUser;
 
+ 
+
   //alert(auth.currentUser);
-  $("#author").text($scope.currentUser);
+  //$("#author").text($scope.currentUser);
 
   $scope.addPost = function()
   {
@@ -175,7 +183,7 @@ function($scope, auth, posts)
     {
       title: $scope.title,
       link: $scope.link,
-      author: $("#author").text(),
+      
     });
     //alert($scope.title);
   	// $scope.posts.push(
@@ -205,10 +213,12 @@ app.controller("PostsCtrl",
     "$scope",
     "posts",
     "post",
-    function($scope, posts, post)
+    "auth",
+    function($scope, posts, post, auth)
     {
       //$scope.post = posts.posts[$stateParams.id];
       $scope.post = post;
+      $scope.isLoggedIn = auth.isLoggedIn;
 
       $scope.addComment = function()
       {

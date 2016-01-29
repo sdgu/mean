@@ -64,13 +64,17 @@ router.post("/login", function(req, res, next)
 	{
 		return res.status(400).json({message: "Fill out all fields"});
 	}
-
+	
 	passport.authenticate("local", function(err, user, info)
 	{
+
+
 		if (err) return next(err);
 
 		if (user)
 		{
+			console.log("authing?");
+
 			return res.json({token: user.generateJWT()});
 		}
 		else
@@ -160,7 +164,7 @@ router.get("/posts", function(req, res, next)
 {
 	Post.find(function(err, posts)
 	{
-		console.log(posts);
+		//console.log(posts);
 
 		if (err)
 		{
@@ -171,16 +175,15 @@ router.get("/posts", function(req, res, next)
 	});
 });
 
-router.post("/posts", function(req, res, next)
+router.post("/posts", auth, function(req, res, next)
 {
 	
 
-
 	var post = new Post(req.body);
 	console.log("pressed");
+	
+	post.author = req.payload.username;
 	console.log(post);
-	//post.author = req.payload.username;
-
 	
 
 	post.save(function(err, post)
@@ -192,6 +195,8 @@ router.post("/posts", function(req, res, next)
 
 		res.json(post);
 	});
+
+
 });
 
 
