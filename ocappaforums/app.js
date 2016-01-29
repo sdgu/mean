@@ -12,6 +12,7 @@ var connextion = mongoose.connect(dburi);
 require("./models/posts");
 //var comments = 
 require("./models/comments");
+require("./models/users");
 var db = connextion.connection;
 
 var routes = require('./routes/index');

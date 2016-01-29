@@ -2,12 +2,21 @@ var app = angular.module('OCAPForums', ["ui.router"]);
 
 
 
-app.factory("posts", [function()
+app.factory("posts", ["$http", function($http)
 {
   var o = 
   {
     posts: []
   };
+
+  o.getAll = function()
+  {
+    return $http.get("/posts").success(function(data)
+    {
+      angular.copy(data, o.posts);
+    });
+  }
+
 
   o.create = function(post)
   {
@@ -17,7 +26,18 @@ app.factory("posts", [function()
     });
   };
 
+  o.get = function(id)
+  {
+    return $http.get("/posts/" + id).then(function(res)
+    {
+      return res.data;
+    });
+  }
 
+  o.addComment = function(id, comment)
+  {
+    return $http.post("/posts/" + id + "/comments", comment);
+  }
 
   return o;
 }]);
@@ -50,16 +70,23 @@ function($scope, posts)
     {
       return;
     }
-  	$scope.posts.push(
-  	{
-  		title: $scope.title,
+
+    posts.create(
+    {
+      title: $scope.title,
       link: $scope.link,
-      likes: 0,
-      comments:
-      [
-        {author: "pasta", body: "this is pasta", likes: 10}
-      ]
-  	});
+    });
+
+  	// $scope.posts.push(
+  	// {
+  	// 	title: $scope.title,
+   //    link: $scope.link,
+   //    likes: 0,
+   //    comments:
+   //    [
+   //      {author: "pasta", body: "this is pasta", likes: 10}
+   //    ]
+  	// });
     $scope.title = "";
     $scope.link = "";
   };
@@ -75,11 +102,12 @@ function($scope, posts)
 app.controller("PostsCtrl",
   [
     "$scope",
-    "$stateParams",
     "posts",
-    function($scope, $stateParams, posts)
+    "post",
+    function($scope, posts, post)
     {
-      $scope.post = posts.posts[$stateParams.id];
+      //$scope.post = posts.posts[$stateParams.id];
+      $scope.post = post;
 
       $scope.addComment = function()
       {
@@ -87,12 +115,21 @@ app.controller("PostsCtrl",
         {
           return;
         } 
-        $scope.post.comments.push(
+
+        posts.addComment(post._id, 
         {
           body: $scope.body,
           author: "user",
-          likes: 0
+        }).success(function(comment)
+        {
+          $scope.post.comments.push(comment);
         });
+        // $scope.post.comments.push(
+        // {
+        //   body: $scope.body,
+        //   author: "user",
+        //   likes: 0
+        // });
         $scope.body = "";
       };
     }
@@ -112,14 +149,28 @@ app.config([
     {
       url: "/home",
       templateUrl: "/home.html",
-      controller: "MainCtrl"
+      controller: "MainCtrl",
+      resolve:
+      {
+        postPromise: ["posts", function(posts)
+        {
+          return posts.getAll();
+        }]
+      }
     });
 
     $stateProvider.state("posts",
     {
       url: "/posts/{id}",
       templateUrl: "/posts.html",
-      controller: "PostsCtrl"
+      controller: "PostsCtrl",
+      resolve:
+      {
+        post: ["$stateParams", "posts", function($stateParams, posts)
+        {
+          return posts.get($stateParams.id);
+        }]
+      }
     });
 
     $urlRouterProvider.otherwise("home");
