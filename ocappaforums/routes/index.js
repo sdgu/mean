@@ -199,5 +199,45 @@ router.post("/posts", auth, function(req, res, next)
 
 });
 
+router.post("/updateOP", auth, function(req, res, next)
+{
+	console.log("the post for updating op");
+	console.log(req.body);
+	console.log(req.payload.username);
+	console.log(req.body._id);
+
+	var collection = Post;
+	collection.findOneAndUpdate(
+	{
+		_id: req.body._id
+	},
+	{
+		content: req.body.content
+	}, function(err, docs)
+	{
+		if (err) return next(err);
+
+
+		console.log("updated");
+		res.json(docs);
+
+	});
+
+	// authorscoll.findOneAndUpdate(
+	// {
+	// 	author: author
+	// }, 
+	// {
+	// 	"$push": {characters : charName}
+	// }, 
+	// {
+	// 	safe: true, upsert: true
+	// },
+	// function(err, docs)
+
+
+
+});
+
 
 module.exports = router;

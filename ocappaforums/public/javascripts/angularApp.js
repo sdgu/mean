@@ -62,7 +62,7 @@ app.factory("auth", ["$http", "$window", function($http, $window)
   auth.logOut = function()
   {
     $window.localStorage.removeItem("ocappaforums-token");
-    //$window.location.reload();
+    $window.location.href = "/";
   }
 
 
@@ -71,7 +71,7 @@ app.factory("auth", ["$http", "$window", function($http, $window)
 }])
 
 
-app.factory("posts", ["$http", 'auth', function($http, auth)
+app.factory("posts", ["$http", "$window", 'auth', function($http, $window, auth)
 {
   var o = 
   {
@@ -104,9 +104,23 @@ app.factory("posts", ["$http", 'auth', function($http, auth)
       o.posts.push(data);
     });
 
-  
-
   };
+
+  o.updateOP = function(id, post)
+  {
+    return $http.post("/updateOP", post, 
+    {
+      headers: {Authorization: "Bearer " + auth.getToken()}
+    }).success(function(data)
+    {
+      
+      //alert(post.content);
+      //alert(data.content);
+      //$scope.updatedContent = data.content;
+      //alert("done updating");
+      //$window.location.reload();
+    });
+  }
 
   o.get = function(id)
   {
@@ -182,7 +196,7 @@ function($scope, auth, posts)
     posts.create(
     {
       title: $scope.title,
-      link: $scope.link,
+      content: $scope.content,
       
     });
     //alert($scope.title);
@@ -197,7 +211,7 @@ function($scope, auth, posts)
    //    ]
   	// });
     $scope.title = "";
-    $scope.link = "";
+    $scope.content = "";
   };
 
   $scope.incrementLike = function (post)
@@ -218,7 +232,28 @@ app.controller("PostsCtrl",
     {
       //$scope.post = posts.posts[$stateParams.id];
       $scope.post = post;
+      $scope.content = post.content;
       $scope.isLoggedIn = auth.isLoggedIn;
+      $scope.currentUser = auth.currentUser;
+
+      $scope.editing = false;
+      //$scope.loggedInMatch = false;
+
+      // alert($scope.post.author);
+      // alert($scope.currentUser());
+
+
+      //$scope.testhtml = "o.o";
+
+
+      if ($scope.post.author === $scope.currentUser())
+      {
+        $scope.loggedInMatch = true;
+      }
+      else
+      {
+        $scope.loggedInMatch = false;
+      }
 
       $scope.addComment = function()
       {
@@ -243,6 +278,47 @@ app.controller("PostsCtrl",
         // });
         $scope.body = "";
       };
+
+      $scope.editOP = function()
+      {
+        //alert(post.content);
+
+        $scope.editing = true;
+        
+
+        $scope.data = {text: post.content};
+
+      }
+
+
+
+      $scope.updateOP = function()
+      {
+        $scope.editing = false;
+
+        //alert(post.content);        
+        //alert($scope.data.text);
+
+        posts.updateOP(post._id,
+        {
+          content: $scope.data.text,
+          _id: post._id,
+          //author: $scope.post.author,
+        }).success(function()
+        {
+          //alert(post.content);
+          //alert($scope.data.text);
+          $scope.content = $scope.data.text;
+          //$scope.content = post.content;
+        });
+
+
+      }
+
+      $scope.editPost = function(comment)
+      {
+        alert(comment._id);
+      }
     }
   ]);
 
