@@ -107,6 +107,9 @@ router.param("post", function(req, res, next, id)
 	});
 });
 
+
+
+
 router.get("/posts/:post", function(req, res)
 {
 	
@@ -137,7 +140,11 @@ router.put("/posts/:post/like", auth, function(req, res, next)
 router.post("/posts/:post/comments", auth, function(req, res, next)
 {
 	var comment = new Comment(req.body);
+	var post = Post;
+
+	var postID = req.body.postID;
 	comment.post = req.post;
+	comment.date = req.body.date;
 	comment.author = req.payload.username;
 
 	comment.save(function(err, comment)
@@ -148,15 +155,31 @@ router.post("/posts/:post/comments", auth, function(req, res, next)
 		}
 
 		req.post.comments.push(comment);
-		req.post.save(function(err, post)
-		{
-			if (err)
-			{
-				return next(err);
-			}
 
-			res.json(comment);
-		});
+		post.findOneAndUpdate(
+		{
+			_id: postID
+		},
+		{
+			latestComment: req.body.date
+		}, function(err, docs)
+		{
+			if (err) return next(err);
+
+			req.post.save(function(err, post)
+			{
+				if (err)
+				{
+					return next(err);
+				}
+
+				res.json(comment);
+			});
+
+		})
+
+
+
 	});
 });
 
@@ -172,6 +195,16 @@ router.get("/posts", function(req, res, next)
 		}
 
 		res.json(posts);
+	});
+});
+
+router.get("/comments", function(req, res)
+{
+	Comment.find(function(err, comments)
+	{
+		if (err) return next(err);
+
+		res.json(comments);
 	});
 });
 
@@ -261,6 +294,7 @@ router.post("/updateComment", auth, function(req, res, next)
 	}, function(err, docs)
 	{
 		if (err) return next(err);
+
 		console.log(docs);
 		console.log("updated");
 		res.json(docs);

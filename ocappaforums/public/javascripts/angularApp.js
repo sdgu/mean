@@ -194,6 +194,33 @@ function($scope, auth, posts)
   //alert(auth.currentUser);
   //$("#author").text($scope.currentUser);
 
+  $.getJSON("/comments", function(data)
+  {
+
+    $.each(posts.posts, function(index, vaule)
+    {
+      
+      var mostRecentCommentID = this.comments[this.comments.length-1];
+      var arrayPos = data.map(function(arrayItem)
+      {
+          return arrayItem._id;
+      }).indexOf(mostRecentCommentID);
+
+      if (arrayPos > -1)
+      {
+        //alert(arrayPos + " " + data[arrayPos].date);
+        $scope.latestPost = data[arrayPos].date;
+      }
+
+    })
+    
+    //alert(post.comments[post.comments.length - 1]);
+
+
+
+  });
+
+
   $scope.addPost = function()
   {
 
@@ -209,6 +236,7 @@ function($scope, auth, posts)
     {
       title: $scope.title,
       content: $scope.content,
+      date: Date(),
       
     });
     //alert($scope.title);
@@ -264,6 +292,8 @@ app.controller("PostsCtrl",
       //if ($scope.comment.author === )
 
 
+//alert(Date());
+
       if ($scope.post.author === $scope.currentUser())
       {
         $scope.loggedInMatch = true;
@@ -284,6 +314,8 @@ app.controller("PostsCtrl",
         {
           body: $scope.body,
           author: "user",
+          date: Date(),
+          postID: post._id,
         }).success(function(comment)
         {
           $scope.post.comments.push(comment);
@@ -361,7 +393,7 @@ app.controller("PostsCtrl",
           //alert($scope.data.text);
 
           //alert($scope.comment.body);
-
+          //$scope.post.comments.push(comment);
           $scope.comment.body = $scope.data.text;
         });
       }

@@ -28,3 +28,44 @@ a {
     max-width: 60rem;
     min-width: 45rem;
 }
+
+.op
+{
+	background: #CCC none repeat scroll 0% 0%;
+	border: 1px solid #5A5858;
+	padding: 10px;
+	border-radius: 9px;
+	min-height: 150px;
+	position: relative;
+}
+
+.author
+{
+	/* margin-right: 150px; */
+	display: inline-block;
+	vertical-align: top;
+	width: 150px;
+
+}
+
+.postFooter
+{
+	text-align: right;
+	bottom: 10px;
+	right: 10px;
+	position: absolute;
+
+}
+
+.posts
+{
+	background: #CCC none repeat scroll 0% 0%;
+	border: 1px solid #5A5858;
+	padding: 10px;
+	border-radius: 9px;
+	min-height: 150px;
+	margin-top: 20px;
+	position: relative;
+
+}
+
