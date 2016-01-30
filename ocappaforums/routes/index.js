@@ -239,5 +239,33 @@ router.post("/updateOP", auth, function(req, res, next)
 
 });
 
+router.post("/updateComment", auth, function(req, res, next)
+{
+	console.log("updating comment");
+	console.log(req.body.postID);
+
+	var postID = req.body.postID;
+	var commentID = req.body.commentID;
+	var text = req.body.text;
+
+
+	var post = Post;
+	var comment = Comment;
+
+	comment.findOneAndUpdate(
+	{
+		_id: commentID
+	},
+	{
+		body: text
+	}, function(err, docs)
+	{
+		if (err) return next(err);
+		console.log(docs);
+		console.log("updated");
+		res.json(docs);
+	});
+});
+
 
 module.exports = router;

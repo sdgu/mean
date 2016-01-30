@@ -118,7 +118,7 @@ app.factory("posts", ["$http", "$window", 'auth', function($http, $window, auth)
       //alert(data.content);
       //$scope.updatedContent = data.content;
       //alert("done updating");
-      //$window.location.reload();
+      $window.location.reload();
     });
   }
 
@@ -137,6 +137,18 @@ app.factory("posts", ["$http", "$window", 'auth', function($http, $window, auth)
         headers: {Authorization: "Bearer " + auth.getToken()}
       });
   }
+
+  o.updateComment = function(id, comment)
+  {
+    return $http.post("/updateComment", comment, 
+    {
+      headers: {Authorization: "Bearer " + auth.getToken()}
+    }).success(function(data)
+    {
+      $window.location.reload();
+    });
+  }
+
 
   return o;
 }]);
@@ -237,6 +249,9 @@ app.controller("PostsCtrl",
       $scope.currentUser = auth.currentUser;
 
       $scope.editing = false;
+      $scope.amEditingPost = false;
+
+      //$scope.commentContent = comment.body;
       //$scope.loggedInMatch = false;
 
       // alert($scope.post.author);
@@ -244,6 +259,9 @@ app.controller("PostsCtrl",
 
 
       //$scope.testhtml = "o.o";
+
+      //alert($scope.comment.author);
+      //if ($scope.comment.author === )
 
 
       if ($scope.post.author === $scope.currentUser())
@@ -287,7 +305,7 @@ app.controller("PostsCtrl",
         
 
         $scope.data = {text: post.content};
-
+        //alert($scope.data.text);
       }
 
 
@@ -317,8 +335,39 @@ app.controller("PostsCtrl",
 
       $scope.editPost = function(comment)
       {
-        alert(comment._id);
+        
+        //alert(comment._id);
+        $scope.editingPost = {which: comment._id};
+        //alert($scope.editingPost.which);
+        $scope.amEditingPost = true;
+        $scope.data = {text: comment.body};
+
       }
+
+      $scope.updateComment = function(comment)
+      {
+
+        $scope.amEditingPost = false;
+        $scope.editingPost = {which: ""};
+
+        posts.updateComment(comment._id,
+        {
+          text: $scope.data.text,
+          postID: post._id,
+          commentID: comment._id,
+        }).success(function()
+        {
+          //alert("editing post i hope");
+          //alert($scope.data.text);
+
+          //alert($scope.comment.body);
+
+          $scope.comment.body = $scope.data.text;
+        });
+      }
+
+
+
     }
   ]);
 
