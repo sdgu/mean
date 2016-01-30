@@ -161,7 +161,7 @@ router.post("/posts/:post/comments", auth, function(req, res, next)
 			_id: postID
 		},
 		{
-			latestComment: req.body.date
+			latestPost: req.body.date
 		}, function(err, docs)
 		{
 			if (err) return next(err);

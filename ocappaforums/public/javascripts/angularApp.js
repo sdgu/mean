@@ -194,31 +194,31 @@ function($scope, auth, posts)
   //alert(auth.currentUser);
   //$("#author").text($scope.currentUser);
 
-  $.getJSON("/comments", function(data)
-  {
+  // $.getJSON("/comments", function(data)
+  // {
 
-    $.each(posts.posts, function(index, vaule)
-    {
+  //   $.each(posts.posts, function(index, vaule)
+  //   {
       
-      var mostRecentCommentID = this.comments[this.comments.length-1];
-      var arrayPos = data.map(function(arrayItem)
-      {
-          return arrayItem._id;
-      }).indexOf(mostRecentCommentID);
+  //     var mostRecentCommentID = this.comments[this.comments.length-1];
+  //     var arrayPos = data.map(function(arrayItem)
+  //     {
+  //         return arrayItem._id;
+  //     }).indexOf(mostRecentCommentID);
 
-      if (arrayPos > -1)
-      {
-        //alert(arrayPos + " " + data[arrayPos].date);
-        $scope.latestPost = data[arrayPos].date;
-      }
+  //     if (arrayPos > -1)
+  //     {
+  //       //alert(arrayPos + " " + data[arrayPos].date);
+  //       $scope.latestPost = data[arrayPos].date;
+  //     }
 
-    })
+  //   })
     
-    //alert(post.comments[post.comments.length - 1]);
+  //   //alert(post.comments[post.comments.length - 1]);
 
 
 
-  });
+  // });
 
 
   $scope.addPost = function()
@@ -237,6 +237,7 @@ function($scope, auth, posts)
       title: $scope.title,
       content: $scope.content,
       date: Date(),
+      latestPost: Date(),
       
     });
     //alert($scope.title);
