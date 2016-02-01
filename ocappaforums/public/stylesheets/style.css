@@ -82,6 +82,40 @@ a {
 
 }*/
 
+.tt 
+{
+	width: 300px;
+}
+
+.threadTable td
+{
+	padding-right: 30px;
+}
+
+.threadTitle
+{
+
+}
+
+.threadDate
+{
+	display: inline-block;
+	font-size: 12px;
+}
+
+.threadReplies
+{
+	display: inline-block;
+	font-size: 12px;
+
+}
+
+.latestPostDate
+{
+	display: inline-block;
+	font-size: 12px;
+}
+
 .postcontent
 {
 	display: inline-block;

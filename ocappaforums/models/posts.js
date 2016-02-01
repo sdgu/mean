@@ -6,7 +6,12 @@ var PostSchema = new mongoose.Schema(
 	author: String,
 	content: String,
 	date: String,
-	latestPost: String,
+	latestPost: 
+	{
+		date: String,
+		user: String
+	},
+	replies: Number,
 	likes: {type: Number, default: 0},
 	comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }]
 });

@@ -183,7 +183,9 @@ router.post("/posts/:post/comments", auth, function(req, res, next)
 				_id: postID
 			},
 			{
-				latestPost: req.body.date
+				'latestPost.date': req.body.date,
+				'latestPost.user': req.payload.username,
+				$inc: {replies: 1}
 			}, function(err, docs)
 			{
 				if (err) return next(err);
@@ -264,10 +266,29 @@ router.post("/posts", auth, function(req, res, next)
 	
 
 	var post = new Post(req.body);
-	console.log("pressed");
+	
 	
 	post.author = req.payload.username;
-	console.log(post);
+	post.replies = 0;
+	post.latestPost.date = req.body.date;
+	post.latestPost.user = req.payload.username;
+	
+
+// 	var PostSchema = new mongoose.Schema(
+// {
+// 	title: String, ye
+// 	author: String, ye
+// 	content: String, ye
+// 	date: String, ye
+// 	latestPost: 
+// 	{
+// 		date: String, ye
+// 		user: String ye
+// 	},
+// 	replies: Number, ye
+// 	likes: {type: Number, default: 0},
+// 	comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }]
+// });
 	
 	User.findOneAndUpdate(
 	{

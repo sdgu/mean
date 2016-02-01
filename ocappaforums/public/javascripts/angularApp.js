@@ -270,14 +270,14 @@ function($scope, auth, posts)
       return;
     }
 
-    var pDate = dateParse(new Date());
+    var pDate = dateParse(new Date(), "est");
 
     posts.create(
     {
       title: $scope.title,
       content: $scope.content,
       date: pDate,
-      latestPost: pDate,
+      
       
     });
     //alert($scope.title);
@@ -318,13 +318,23 @@ function($scope, auth, posts)
 //   }]);
 
 
-function dateParse(date)
+function dateParse(date, tzone)
 {
+
+  var hourDiff = 0;
+  if (tzone === "est")
+  {
+    hourDiff = 5;
+  }
+
+
   var year = "" + date.getUTCFullYear();
   var month = date.getUTCMonth() + 1;
   month = "" + month;
   var day = "" + date.getUTCDate();
-  var hour = "" + date.getUTCHours();
+  var hour = date.getUTCHours();
+  hour = (hour - 5) % 24;
+  hour = "" + hour;
   var minute = "" + date.getUTCMinutes();
   var sec = "" + date.getUTCSeconds();
 
@@ -349,7 +359,7 @@ function dateParse(date)
     sec = "0" + sec;
   }
 
-  var fullDate = year + month + day + hour + minute + sec;
+  var fullDate = year + " " + month + " " + day + " " + hour + ":" + minute + ":" + sec;
   //alert(fullDate);
   return fullDate;
 }
@@ -515,7 +525,7 @@ app.controller("PostsCtrl",
         } 
 
 
-        var pDate = dateParse(new Date());
+        var pDate = dateParse(new Date(), "est");
         //alert(pDate);
         posts.addComment(post._id, 
         {
