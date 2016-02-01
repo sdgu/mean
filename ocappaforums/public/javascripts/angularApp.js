@@ -379,7 +379,15 @@ app.controller("PostsCtrl",
           }
         }
         //alert('<img src="' + userList[i].avatar + '" />');
-        return userList[i].avatar;
+        if (userList[i].avatar === "none")
+        {
+          return '/images/226377.jpg.m.1451801726.jpg';
+        }
+        else
+        {
+          return userList[i].avatar;
+        }
+        
 
      }
 

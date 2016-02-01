@@ -17,6 +17,8 @@ var UserSchema = new mongoose.Schema(
 
 	},
 	avatar: String,
+	postCount: Number,
+	joinDate: String,
 	hash: String,
 	salt: String
 });
