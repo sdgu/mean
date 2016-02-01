@@ -645,11 +645,23 @@ app.controller("PostsCtrl",
       }
 
 
-     $scope.autoExpandPost = function() 
+      $scope.autoExpand = function(e) 
+      {
+        var element = typeof e === 'object' ? e.target : document.getElementById(e);
+        var scrollHeight = element.scrollHeight - 1; // replace 60 by the sum of padding-top and padding-bottom
+        element.style.height =  scrollHeight + "px";    
+      };
+
+     $scope.autoExpandPost = function(comment) 
      {
       //alert("autoexpanding");
+     
       //var element = typeof e === 'object' ? e.target : document.getElementById(e);
-        var element = document.getElementById("TextAreaPost");
+
+      var str = "TextAreaPost" + comment._id;
+      //alert(str);
+        var element = document.getElementById(str);
+
         var scrollHeight = element.scrollHeight + 20; // replace 60 by the sum of padding-top and padding-bottom
         //var width = element.width + 100;
         element.style.height =  scrollHeight + "px"; 
@@ -695,7 +707,10 @@ app.controller("PostsCtrl",
         //alert($scope.editingPost.which);
         
         $scope.data = {text: comment.body};
-        setTimeout(function(){$scope.autoExpandPost()}, 1);
+        setTimeout(function()
+          {
+            $scope.autoExpandPost(comment)
+          }, 1);
     
 
         

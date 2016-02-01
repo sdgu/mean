@@ -206,7 +206,7 @@
 
           <form ng-submit="updateOP()">
 
-            <textarea ng-model="data.text" id="TextArea"></textarea>
+            <textarea ng-keyup="autoExpand($event)" ng-model="data.text" id="TextArea"></textarea>
             <br />
             <button type="submit">Post</button>
 
@@ -277,7 +277,7 @@
 
                     <form ng-submit="updateComment(comment)">
                   
-                      <textarea ng-model="data.text" id="TextAreaPost"></textarea>
+                      <textarea ng-keyup="autoExpand($event)" ng-model="data.text" id="TextAreaPost{{comment._id}}"></textarea>
                       <br />
                       <button type="submit">Post</button>
                       
@@ -319,7 +319,7 @@
         <form ng-submit="addComment()" ng-show="isLoggedIn()" style="margin-top:30px;">
           <h3>Reply</h3>
           
-          <textarea ng-model="body" cols="40" rows="10"></textarea>
+          <textarea ng-keyup="autoExpand($event)" ng-model="body" cols="40" rows="10"></textarea>
           <br />
           <button type="submit">Post</button>
         </form>
