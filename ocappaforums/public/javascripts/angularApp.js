@@ -362,6 +362,28 @@ app.controller("PostsCtrl",
 
 
      //$scope.bannerStyle = {'color' : 'red'};
+     //$scope.lalala = "<img src='http://www.smogon.com/media/forums/data/avatars/m/67/67440.jpg.m.1434660905' />";
+
+     $scope.getAvatar = function(user)
+     {
+        var i = 0;
+        while(i < userList.length)
+        {
+          if (user === userList[i].username)
+          {
+            break;
+          }
+          else
+          {
+            i++;
+          }
+        }
+        //alert('<img src="' + userList[i].avatar + '" />');
+        return userList[i].avatar;
+
+     }
+
+
 
       $scope.getBannerStyle = function(user)
       {

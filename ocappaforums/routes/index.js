@@ -200,7 +200,8 @@ router.get("/users", function(req, res, next)
 			data.push(
 				{
 					"username" : users[i].username,
-					"banner" : users[i].banner
+					"banner" : users[i].banner,
+					"avatar" : users[i].avatar
 
 				});
 		}

@@ -125,9 +125,33 @@ a {
 	position: relative;
 }
 
+
+.avatar
+{
+	display: block;
+	background-color: #F0F7FC;
+
+	padding: 5px 0px 5px 24px;
+
+	border-radius: 4px;
+
+}
+.avatar img 
+{
+	background-color: #FCFCFF;
+	padding: 2px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #A5CAE4;
+	border-radius: 4px;
+
+}
+
+
 .username
 {
 	display: block;
+
 	text-align: center;
 }
 /*
