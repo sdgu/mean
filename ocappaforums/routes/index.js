@@ -49,7 +49,7 @@ router.post("/register", function(req, res, next)
 
 	user.banner.text = "plain yogurt";
 
-	user.banner.backgroundCol = "#fff";
+	user.banner.backgroundCol = "#f0f0f0";
 	user.misc.postCount = 0;
 	//var d = new Date();
 	user.misc.joinDate = Date();
@@ -315,12 +315,32 @@ router.post("/threads", auth, function(req, res, next)
 
 });
 
+
+router.post("/updateTitle", auth, function(req, res, next)
+{
+	console.log(req.body);
+
+	var collection = Post;
+	collection.findOneAndUpdate(
+	{
+		_id: req.body._id
+	},
+	{
+		title: req.body.title
+	}, function(err, docs)
+	{
+		if (err) return next(err);
+		res.json(docs);
+	});
+
+});
+
 router.post("/updateOP", auth, function(req, res, next)
 {
 	console.log("the post for updating op");
 	console.log(req.body);
-	console.log(req.payload.username);
-	console.log(req.body._id);
+	// console.log(req.payload.username);
+	// console.log(req.body._id);
 
 	var collection = Post;
 	collection.findOneAndUpdate(

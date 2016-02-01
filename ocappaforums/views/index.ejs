@@ -116,11 +116,26 @@
 
 
         <script type="text/ng-template" id="/threads.html">
-            <h3 ng-bind="post.title"></h3>
+            
  
             <p><a href="/#/forums">Home</a></p>
- 
- 
+            
+            <h3 ng-bind="post.title"></h3>
+            <div ng-show="loggedInMatch && !editingTitle && !editing && !amEditingPost">
+                
+              
+              <a href="" ng-click="editTitle()">Edit Thread Title</a>
+            </div>
+            
+            <div ng-show="editingTitle">
+
+            <form ng-submit="updateTitle(post._id)">
+
+              <textarea row="1" ng-model="titleEdit"></textarea>
+
+              <button type="submit">Change</button>
+            </form>
+            </div>
   <!--  
 //   <div class="op">
 //  <table>
@@ -211,7 +226,7 @@
 
           <div class="miscDeets">
             <span ng-bind="post.date"></span>
-            <a href="" ng-show="loggedInMatch && !editing && !amEditingPost" ng-click="editOP()">Edit</a>
+            <a href="" ng-show="loggedInMatch && !editingTitle && !editing && !amEditingPost" ng-click="editOP()">Edit</a>
           </div>
         </div>
  </div>
@@ -281,7 +296,7 @@
           <div class="miscDeets">
             <span ng-bind="comment.date"></span>
 
-            <a href="" ng-show="(comment.author === currentUser()) && !amEditingPost && !editing" ng-click="testf(comment)">Edit</a>
+            <a href="" ng-show="(comment.author === currentUser()) && !amEditingPost && !editing && !editingTitle" ng-click="testf(comment)">Edit</a>
           </div>
         </div>
  </div>

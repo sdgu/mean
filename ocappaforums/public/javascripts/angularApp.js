@@ -111,6 +111,19 @@ app.factory("threads", ["$http", "$window", 'auth', function($http, $window, aut
 
   };
 
+
+
+  o.updateTitle = function(id, deets)
+  {
+    return $http.post("/updateTitle", deets,
+    {
+      headers: {Authorization: "Bearer " + auth.getToken()}
+    }).success(function(data)
+    {
+      $window.location.reload();
+    })
+  }
+
   o.updateOP = function(id, post)
   {
     return $http.post("/updateOP", post, 
@@ -128,6 +141,8 @@ app.factory("threads", ["$http", "$window", 'auth', function($http, $window, aut
       $window.location.reload();
     });
   }
+
+
 
   o.get = function(id)
   {
@@ -391,7 +406,7 @@ app.controller("PostsCtrl",
 
       $scope.editing = false;
       $scope.amEditingPost = false;
-
+      $scope.editingTitle = false;
       
 
       if ($scope.post.author === $scope.currentUser())
@@ -402,6 +417,8 @@ app.controller("PostsCtrl",
       {
         $scope.loggedInMatch = false;
       }
+
+
 
 
 
@@ -561,11 +578,37 @@ app.controller("PostsCtrl",
 
       };
 
+
+      $scope.editTitle = function()
+      {
+        //$scope.editing = true;
+        $scope.editingTitle = true;
+        $scope.titleEdit = post.title;
+      }
+
+
+      $scope.updateTitle = function()
+      {
+        $scope.editingTitle = false;
+
+        
+
+        threads.updateTitle(post._id, 
+        {
+          title: $scope.titleEdit,
+          _id: post._id,
+        }).success(function()
+        {
+
+        });
+      }
+
       $scope.editOP = function()
       {
         //alert(post.content);
 
         $scope.editing = true;
+
         
 
         $scope.data = {text: post.content};
