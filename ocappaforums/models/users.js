@@ -10,11 +10,13 @@ var UserSchema = new mongoose.Schema(
 		text: String,
 		backgroundCol: String,
 		textCol: String,
+		borderCol: String,
 		sprite: String,
 		hover: String
 
 
 	},
+	avatar: String,
 	hash: String,
 	salt: String
 });

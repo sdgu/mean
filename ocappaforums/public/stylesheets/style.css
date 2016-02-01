@@ -54,7 +54,7 @@ a {
     min-width: 45rem;
 }
 */
-.op
+/*.op
 {
 	background: #FFF none repeat scroll 0% 0%;
 	border: 1px solid #176093;
@@ -64,10 +64,10 @@ a {
 	position: relative;
 
 }
-
-.author
+*/
+/*.author
 {
-	/* margin-right: 150px; */
+	/* margin-right: 150px;
 	display: inline-block;
 	vertical-align: top;
 	width: 150px;
@@ -80,13 +80,13 @@ a {
 
 
 
-}
+}*/
 
 .postcontent
 {
 	display: inline-block;
 	vertical-align: top;
-	margin-left: 10px;
+	margin-left: 20px;
 
 }
 
@@ -171,15 +171,16 @@ nav
 	margin-top: 10px;
 }
 
-.Lemonade
+/*.Lemonade
 {
 	color: #000;
 	background-color: #808080;
 	border-color: #AAA;
-}
+}*/
 
-.test
+
+/*.test
 {
 	background-color: #B6A0D4;
 	color: #4F627A;
-}
+}*/

@@ -361,23 +361,55 @@ app.controller("PostsCtrl",
 
 
 
+     //$scope.bannerStyle = {'color' : 'red'};
 
-      $scope.checkAuthor = function(user)
+      $scope.getBannerStyle = function(user)
       {
-        return (user == "Lemonade") || (user == "test");
+        var i = 0;
+        while(i < userList.length)
+        {
+          if (user === userList[i].username)
+          {
+            break;
+          }
+          else
+          {
+            i++;
+          }
+        }
+        //alert(i);
+        //alert(userList[i].banner.backgroundCol);
+
+        return {'color' : userList[i].banner.textCol, 'background-color' : userList[i].banner.backgroundCol, 'border-color' : userList[i].banner.borderCol};
+        
+
       }
 
       $scope.getBannerText = function(user)
       {
         
-          if (user == "Lemonade")
+        var i = 0;
+        while(i < userList.length)
+        {
+          if (user === userList[i].username)
           {
-            return "potato toaster";
+            break;
           }
-          else if (user == "test")
+          else
           {
-            return "gamma tester";
+            i++;
           }
+        }
+        return userList[i].banner.text;
+
+          // if (user == "Lemonade")
+          // {
+          //   return "potato toaster";
+          // }
+          // else if (user == "test")
+          // {
+          //   return "gamma tester";
+          // }
 
       }
 
