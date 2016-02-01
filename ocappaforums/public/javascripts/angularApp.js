@@ -74,6 +74,8 @@ app.factory("auth", ["$http", "$window", function($http, $window)
 }])
 
 
+
+
 app.factory("posts", ["$http", "$window", 'auth', function($http, $window, auth)
 {
   var o = 
@@ -129,11 +131,19 @@ app.factory("posts", ["$http", "$window", 'auth', function($http, $window, auth)
   {
     return $http.get("/posts/" + id).then(function(res)
     {
+      //alert(res.data.toSource());
       return res.data;
     });
   }
 
-  
+
+  o.getUsers = function()
+  {
+
+
+
+  }
+
 
   o.addComment = function(id, comment)
   {
@@ -335,6 +345,21 @@ app.controller("PostsCtrl",
 
 
 
+      var userList = [];
+      $.ajax(
+      {
+        url: "/users",
+        async: false,
+        dataType: "json",
+        success: function (json)
+        {
+          userList = json;
+        }
+      });
+
+      //alert(userList.toSource());
+
+
 
 
       $scope.checkAuthor = function(user)
@@ -342,20 +367,19 @@ app.controller("PostsCtrl",
         return (user == "Lemonade") || (user == "test");
       }
 
-        $scope.getBannerText = function(user)
-        {
-          
-            if (user == "Lemonade")
-            {
-              return "potato toaster";
-            }
-            else if (user == "test")
-            {
-              return "gamma tester";
-            }
+      $scope.getBannerText = function(user)
+      {
+        
+          if (user == "Lemonade")
+          {
+            return "potato toaster";
+          }
+          else if (user == "test")
+          {
+            return "gamma tester";
+          }
 
-        }
-      //alert(users.people[0].username);
+      }
 
 
 

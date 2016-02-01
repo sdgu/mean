@@ -1,44 +1,29 @@
-
-
 <html>
     <head>
         <title>OCAPPA Forums</title>
         <!-- <base href="/"></base> -->
-
     </head>
     <body ng-app="OCAPForums">
         <!-- https://thinkster.io/mean-stack-tutorial  -->
-
-          <header>
+        <header>
             <div id="headernav">
-
-              <div class="pageWidth">
-            <nav ng-controller="NavCtrl">
-
-              <span ng-show="isLoggedIn()">| Signed in as {{currentUser()}} | </span>
-              <span ng-show="isLoggedIn()"><a href="" ng-click="logOut()">Log Out</a> | </span>
-              <span ng-hide="isLoggedIn()"> | <a href="/#/login">Log In</a></span>
-              <span ng-hide="isLoggedIn()"> | <a href="/#/register">Register</a> | </span>
-
-      
-            </nav>
-          </div>
-          </div>
-          </header> 
-
-
+                <div class="pageWidth">
+                    <nav ng-controller="NavCtrl">
+                        <span ng-show="isLoggedIn()">| Signed in as {{currentUser()}} | </span>
+                        <span ng-show="isLoggedIn()"><a href="" ng-click="logOut()">Log Out</a> | </span>
+                        <span ng-hide="isLoggedIn()"> | <a href="/#/login">Log In</a></span>
+                        <span ng-hide="isLoggedIn()"> | <a href="/#/register">Register</a> | </span>
+                    </nav>
+                </div>
+            </div>
+        </header>
         <div id="content">
-          <div class="pageWidth">
-        <div id="pageContent">
-
-
-
-            <ui-view></ui-view>
+            <div class="pageWidth">
+                <div id="pageContent">
+                    <ui-view></ui-view>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-
-
         <script type="text/ng-template" id="/forums.html">
             <div>
               <h1>OCAPPA Forums</h1>
@@ -58,7 +43,7 @@
               <!-- <span ng-click="incrementLike(post)"><a href="">Like</a></span>
                 -->
               <span ng-hide="post.link">
-
+            
               <a href="#/forums/posts/{{post._id}}">{{post.title}}</a>
             
               </span>     
@@ -72,7 +57,7 @@
                 latest post: {{post.latestPost}}
               </span>
             
-
+            
               <span>
                 
               </span>
@@ -108,72 +93,142 @@
             
             
         </script>
+
+
+
+
         <script type="text/ng-template" id="/posts.html">
             <h3>{{post.title}}</h3>
-            
-            
-            
-            <div class="op">
-            
-            <table>
-              <tr>
-                <td class="author">{{post.author}}</td>
-                <td class="postcontent"><span style="white-space: pre;" ng-hide="editing" ng-bind="content"></span>
-            
-                  <span ng-show="editing">
-            
-                    <form ng-submit="updateOP()">
-                    <textarea cols="40" rows="10" ng-model="data.text"></textarea>
-                    <br />
-                    <button type="submit">Post</button>
+ 
+ 
+ 
+ 
+  <!--  
+//   <div class="op">
+//  <table>
+//     <tr>
+//       <td class="author">{{post.author}}</td>
+//       <td class="postcontent"><span style="white-space: pre;" ng-hide="editing" ng-bind="content"></span>
+        
+//         <span ng-show="editing">
+          
+//           <form ng-submit="updateOP()">
+//             <textarea cols="40" rows="10" ng-model="data.text"></textarea>
+//             <br />
+//             <button type="submit">Post</button>
+//           </form>
+          
+          
+//         </span>
+        
+        
+//       </td>
+//     </tr>
+    
+//   </table> 
+  
+//   <div class="postFooter">
+//     {{post.date}}
+//     <a href="" ng-show="loggedInMatch && !editing" ng-click="editOP()">Edit</a>
+//   </div>
+// </div> -->
+
+      <div class="posts">
+
+        <div class="postbit">
+
+          <div class="avatar">
+          </div>
+
+          <div class="userText">
+            <span class="username">{{post.author}}</span>
+            <span class="customtitle"></span>
+            <div class="badges"></div>
+            <span class="banner wrapped" ng-Class="post.author">
+              <span ng-show="checkAuthor(post.author)" ng-bind="getBannerText(post.author)">
+              </span>
+            </span>
+          </div>
+        </div>
+     
+
+
+      <div class="postcontent">
+        <span style="white-space: pre;" ng-hide="editing" ng-bind="content"></span>
+
+
+        <span ng-show="editing">
+
+
+          <form ng-submit="updateOP()">
+
+            <textarea cols="40" rows="10" ng-model="data.text"></textarea>
+            <br />
+            <button type="submit">Post</button>
+
+          </form>
+        </span>
+
+        <div class="postFooter">
+          {{post.date}}
+          <a href="" ng-show="loggedInMatch && !editing" ng-click="editOP()">Edit</a>
+        </div>
+      </div>
+
+ </div>
+
+      <div ng-repeat="comment in post.comments">
+
+              
+          
+              <div class="posts">
+
+                <div class="postbit">
+                  <div class="avatar">
+
+
+                  </div>
+
+                  <div class="userText">
+                    <span class="username">{{comment.author}}</span>
+                    <span class="customtitle"></span>
+                    <div class="badges"></div>
+                    <span class="banner wrapped" ng-Class="comment.author">
+                      <span ng-show="checkAuthor(comment.author)" ng-bind="getBannerText(comment.author)"></span>
+                      <!-- <span ng-show="comment.author == 'test'">gamma tester</span> -->
+
+                    </span>
+
+                  </div>
+
+
+                </div>
+
+                <div class="postcontent">
+                  <span ng-hide="editingPost.which == comment._id" style="white-space: pre;" ng-bind="comment.body" style="font-size:20px; margin-left:10px;"></span>
+                  
+                  
+                  
+                  
+                  
+                  
+                  <span ng-show="editingPost.which == comment._id">
+
+
+                    <form ng-submit="updateComment(comment)">
+
+                      <textarea cols="40" rows="10" ng-model="data.text"></textarea>
+                      <br />
+                      <button type="submit">Post</button>
+                      
                     </form>
-            
-            
-                  </span>
-            
-            
-                </td>
-              </tr>
-            
-            </table>
-            
-              <div class="postFooter">
-              {{post.date}}
-                <a href="" ng-show="loggedInMatch && !editing" ng-click="editOP()">Edit</a>
-              </div>
-            
-            
-            </div>
-            
-            
-            <div ng-repeat="comment in post.comments">
-              <!-- <span ng-click="incrementLike(comment)"></span>
-                {{comment.likes}} - --> 
-            
-            
-            
-            <div class="posts">
-            
-              <div class="postbit">
-                <div class="avatar">
-
-
-                </div>
-
-                <div class="userText">
-                  <span class="username">{{comment.author}}</span>
-                  <span class="customtitle"></span>
-                  <div class="badges"></div>
-                  <span class="banner wrapped" ng-Class="comment.author">
-                    <span ng-show="checkAuthor(comment.author)" ng-bind="getBannerText(comment.author)"></span>
-                    <!-- <span ng-show="comment.author == 'test'">gamma tester</span> -->
-
                   </span>
 
+                  <div class="postFooter"> {{comment.date}}
+                    <a href="" ng-show="(comment.author === currentUser()) && !amEditingPost" ng-click="editPost(comment)">Edit</a>
+                  </div>
+
                 </div>
-
-
-              </div>
 
             <!--
             <table>
@@ -192,7 +247,7 @@
 
                 </td>
                 <td class="postcontent"><span ng-hide="editingPost.which == comment._id" style="white-space: pre;" ng-bind="comment.body" style="font-size:20px; margin-left:10px;"></span>
-              <!-- {{comment.body}} -->
+       {{comment.body}} 
               
             
             
@@ -215,24 +270,21 @@
             
             
             
-             <div class="postFooter"> {{comment.date}}
-            <a href="" ng-show="(comment.author === currentUser()) && !amEditingPost" ng-click="editPost(comment)">Edit</a>
-            </div>
+
             
             
-              
-            </div>
-            </div>
             
-            <form ng-submit="addComment()" ng-show="isLoggedIn()" style="margin-top:30px;">
-            <h3>Reply</h3>
-            
-            <textarea ng-model="body" cols="40" rows="10"></textarea>
-            <br />
-            <button type="submit">Post</button>
-            </form>
-            
-            
+          </div>
+        </div>
+        
+        <form ng-submit="addComment()" ng-show="isLoggedIn()" style="margin-top:30px;">
+          <h3>Reply</h3>
+          
+          <textarea ng-model="body" cols="40" rows="10"></textarea>
+          <br />
+          <button type="submit">Post</button>
+        </form>
+
         </script>
         <script type="text/ng-template" id="/register.html">
             <div class="page-header">
@@ -290,17 +342,11 @@
               <button type="submit" class="btn btn-primary">Log In</button>
             </form>
         </script>
-
-
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
         <script src="/javascripts/angularApp.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
         <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
         </link>
-
-
-
     </body>
 </html>
-
