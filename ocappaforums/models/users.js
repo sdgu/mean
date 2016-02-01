@@ -5,6 +5,16 @@ var jwt = require("jsonwebtoken");
 var UserSchema = new mongoose.Schema(
 {
 	username: {type: String, unique: true},
+	banner: 
+	{
+		text: String,
+		backgroundCol: String,
+		textCol: String,
+		sprite: String,
+		hover: String
+
+
+	},
 	hash: String,
 	salt: String
 });

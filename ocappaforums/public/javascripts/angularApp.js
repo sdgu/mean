@@ -39,9 +39,12 @@ app.factory("auth", ["$http", "$window", function($http, $window)
       var token = auth.getToken();
       var payload = JSON.parse($window.atob(token.split(".")[1]));
 
+      //alert(payload.username);
       return payload.username;
     }
   }
+
+
 
   auth.register = function(user)
   {
@@ -130,6 +133,8 @@ app.factory("posts", ["$http", "$window", 'auth', function($http, $window, auth)
     });
   }
 
+  
+
   o.addComment = function(id, comment)
   {
     return $http.post("/posts/" + id + "/comments", comment, 
@@ -153,7 +158,28 @@ app.factory("posts", ["$http", "$window", 'auth', function($http, $window, auth)
   return o;
 }]);
 
+app.factory("users", ["$http", "$window", 'auth', function($http, $window, auth)
+{
+  var o = 
+  {
+    users: []
+  };
 
+  o.getAllUsers = function()
+  {
+    
+    return $http.get("/users").success(function(data)
+    {
+      //alert("getAllInReturn");
+      angular.copy(data, o.users);
+    });
+
+
+
+  }
+
+
+}]);
 
 app.controller('MainCtrl', [
 '$scope',
@@ -263,12 +289,28 @@ function($scope, auth, posts)
 
 }]);
 
+
+// app.controller("BannerController", 
+//   [
+//   "$scope",
+//   "posts",
+//   "post",
+//   "auth",
+//   function($scope, posts, post, auth)
+//   {
+
+//     //$scope.test = "o.o";
+
+//   }]);
+
+
 app.controller("PostsCtrl",
   [
     "$scope",
     "posts",
     "post",
     "auth",
+
     function($scope, posts, post, auth)
     {
       //$scope.post = posts.posts[$stateParams.id];
@@ -280,20 +322,7 @@ app.controller("PostsCtrl",
       $scope.editing = false;
       $scope.amEditingPost = false;
 
-      //$scope.commentContent = comment.body;
-      //$scope.loggedInMatch = false;
-
-      // alert($scope.post.author);
-      // alert($scope.currentUser());
-
-
-      //$scope.testhtml = "o.o";
-
-      //alert($scope.comment.author);
-      //if ($scope.comment.author === )
-
-
-//alert(Date());
+      
 
       if ($scope.post.author === $scope.currentUser())
       {
@@ -303,6 +332,32 @@ app.controller("PostsCtrl",
       {
         $scope.loggedInMatch = false;
       }
+
+
+
+
+
+      $scope.checkAuthor = function(user)
+      {
+        return (user == "Lemonade") || (user == "test");
+      }
+
+        $scope.getBannerText = function(user)
+        {
+          
+            if (user == "Lemonade")
+            {
+              return "potato toaster";
+            }
+            else if (user == "test")
+            {
+              return "gamma tester";
+            }
+
+        }
+      //alert(users.people[0].username);
+
+
 
       $scope.addComment = function()
       {
@@ -420,7 +475,7 @@ app.controller("AuthCtrl",
           $scope.error = error;
         }).then(function()
         {
-          $state.go("home");
+          $state.go("forums");
         });
       };
 
@@ -431,7 +486,7 @@ app.controller("AuthCtrl",
           $scope.error = error;
         }).then(function()
         {
-          $state.go("home");
+          $state.go("forums");
         });
       }
 
@@ -457,12 +512,13 @@ function($scope, auth){
 app.config([
   "$stateProvider",
   "$urlRouterProvider",
-  function($stateProvider, $urlRouterProvider)
+  "$locationProvider",
+  function($stateProvider, $urlRouterProvider, $locationProvider)
   {
-    $stateProvider.state("home",
+    $stateProvider.state("forums",
     {
-      url: "/home",
-      templateUrl: "/home.html",
+      url: "/forums",
+      templateUrl: "/forums.html",
       controller: "MainCtrl",
       resolve:
       {
@@ -475,7 +531,7 @@ app.config([
 
     $stateProvider.state("posts",
     {
-      url: "/posts/{id}",
+      url: "/forums/posts/{id}",
       templateUrl: "/posts.html",
       controller: "PostsCtrl",
       resolve:
@@ -493,7 +549,7 @@ app.config([
         controller: 'AuthCtrl',
         onEnter: ['$state', 'auth', function($state, auth){
           if(auth.isLoggedIn()){
-            $state.go('home');
+            $state.go('forums');
           }
         }]
       });
@@ -503,14 +559,15 @@ app.config([
         controller: 'AuthCtrl',
         onEnter: ['$state', 'auth', function($state, auth){
           if(auth.isLoggedIn()){
-            $state.go('home');
+            $state.go('forums');
           }
         }]
       });
 
 
-
-    $urlRouterProvider.otherwise("home");
+    //$locationProvider.html5Mode({enabled: true});
+      //, requireBase: false});
+    $urlRouterProvider.otherwise("forums");
   }
 
   ]);

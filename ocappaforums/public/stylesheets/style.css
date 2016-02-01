@@ -17,7 +17,32 @@ textarea {
 a {
   color: #00B7FF;
 }
+#headernav
+{
+	margin-bottom: 5px;
+}
 
+
+#content
+{
+	margin: 0px;
+	padding: 0px;
+}
+
+.pageWidth
+{
+	padding-right: 5px;
+	padding-left: 5px;
+	margin: 0px 1%;
+	box-sizing: border-box;
+}
+
+#pageContent
+{
+	background-color: #fcfcff;
+	padding: 10px 20px;
+}
+/*
 #page 
 {
     margin: -40px 50px;
@@ -28,15 +53,16 @@ a {
     max-width: 60rem;
     min-width: 45rem;
 }
-
+*/
 .op
 {
-	background: #CCC none repeat scroll 0% 0%;
-	border: 1px solid #5A5858;
+	background: #FFF none repeat scroll 0% 0%;
+	border: 1px solid #176093;
 	padding: 10px;
 	border-radius: 9px;
 	min-height: 150px;
 	position: relative;
+
 }
 
 .author
@@ -45,6 +71,22 @@ a {
 	display: inline-block;
 	vertical-align: top;
 	width: 150px;
+	height: 150px;
+	background: #F0F7FC;
+	border-radius: 9px;
+	text-align: center;
+	position: relative;
+
+
+
+
+}
+
+.postcontent
+{
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 10px;
 
 }
 
@@ -59,13 +101,85 @@ a {
 
 .posts
 {
-	background: #CCC none repeat scroll 0% 0%;
-	border: 1px solid #5A5858;
+	background: #FFFFFF none repeat scroll 0% 0%;
+	border: 1px solid #D7EDFC;
 	padding: 10px;
 	border-radius: 9px;
-	min-height: 150px;
+	min-height: 200px;
 	margin-top: 20px;
 	position: relative;
 
 }
 
+
+.postbit
+{
+	float: left;
+	width: 150px;
+	height: 200px;
+	background-color: #D7EDFC;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #D7EDFC;
+	border-radius: 5px;
+	position: relative;
+}
+
+.username
+{
+	display: block;
+	text-align: center;
+}
+/*
+.wrapped
+{
+	border-top-right-radius: 0px;
+	border-top-left-radius: 0px;
+	position: relative;
+}*/
+
+.banner
+{
+	display: block;
+	position: absolute;
+	bottom: 5px;
+	left: 0;
+	right: 0;
+	margin: auto;
+
+
+	background: transparent url("/images/form-button-white-25px.png.m.1432972134.png") repeat-x scroll center top;
+
+	padding: 1px 5px;
+	border-radius: 4px;
+	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
+	text-align: center;
+/*	text-shadow: 1px 1px #000;*/
+
+/*
+	border-top-right-radius: 0px;
+	border-top-left-radius: 0px;*/
+
+	margin-left: -6px;
+	margin-right: -6px;
+	font-size: 14px;
+
+} 
+
+nav
+{
+	margin-top: 10px;
+}
+
+.Lemonade
+{
+	color: #000;
+	background-color: #808080;
+	border-color: #AAA;
+}
+
+.test
+{
+	background-color: #B6A0D4;
+	color: #4F627A;
+}

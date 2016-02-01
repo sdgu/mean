@@ -3,24 +3,45 @@
 <html>
     <head>
         <title>OCAPPA Forums</title>
+        <!-- <base href="/"></base> -->
 
     </head>
     <body ng-app="OCAPForums">
         <!-- https://thinkster.io/mean-stack-tutorial  -->
-        <div id="page">
+
+          <header>
+            <div id="headernav">
+
+              <div class="pageWidth">
             <nav ng-controller="NavCtrl">
-                <ul>
-                    <li ng-show="isLoggedIn()"><a>{{currentUser()}}</a></li>
-                    <li ng-show="isLoggedIn()"><a href="" ng-click="logOut()">Log Out</a></li>
-                    <li ng-hide="isLoggedIn()"><a href="/#/login">Log In</a></li>
-                    <li ng-hide="isLoggedIn()"><a href="/#/register">Register</a></li>
-                </ul>
+
+              <span ng-show="isLoggedIn()">| Signed in as {{currentUser()}} | </span>
+              <span ng-show="isLoggedIn()"><a href="" ng-click="logOut()">Log Out</a> | </span>
+              <span ng-hide="isLoggedIn()"> | <a href="/#/login">Log In</a></span>
+              <span ng-hide="isLoggedIn()"> | <a href="/#/register">Register</a> | </span>
+
+      
             </nav>
+          </div>
+          </div>
+          </header> 
+
+
+        <div id="content">
+          <div class="pageWidth">
+        <div id="pageContent">
+
+
+
             <ui-view></ui-view>
         </div>
-        <script type="text/ng-template" id="/home.html">
+      </div>
+    </div>
+
+
+        <script type="text/ng-template" id="/forums.html">
             <div>
-              <h1>OCAP Forums</h1>
+              <h1>OCAPPA Forums</h1>
             </div>
             
             
@@ -37,20 +58,23 @@
               <!-- <span ng-click="incrementLike(post)"><a href="">Like</a></span>
                 -->
               <span ng-hide="post.link">
-                <strong>{{post.title}}</strong>
+
+              <a href="#/forums/posts/{{post._id}}">{{post.title}}</a>
+            
               </span>     
+              <br />
               
               <span ng-show="post.author">
               posted by {{post.author}}
               </span>
-            
+              <br />
               <span ng-show="post.latestPost">
                 latest post: {{post.latestPost}}
               </span>
             
 
               <span>
-                <a href="#/posts/{{post._id}}">Comments</a>
+                
               </span>
               <!-- - Likes: {{post.likes}} -->
             </div>
@@ -75,7 +99,7 @@
                 placeholder="Link"
                 ng-model="link"></input> -->
             
-              <button type="submit">Post</button>
+              <button type="submit">Create Thread</button>
             </form>
             
             </div>
@@ -94,7 +118,7 @@
             <table>
               <tr>
                 <td class="author">{{post.author}}</td>
-                <td><span style="white-space: pre;" ng-hide="editing" ng-bind="content"></span>
+                <td class="postcontent"><span style="white-space: pre;" ng-hide="editing" ng-bind="content"></span>
             
                   <span ng-show="editing">
             
@@ -130,10 +154,44 @@
             
             <div class="posts">
             
+              <div class="postbit">
+                <div class="avatar">
+
+
+                </div>
+
+                <div class="userText">
+                  <span class="username">{{comment.author}}</span>
+                  <span class="customtitle"></span>
+                  <div class="badges"></div>
+                  <span class="banner wrapped" ng-Class="comment.author">
+                    <span ng-show="checkAuthor(comment.author)" ng-bind="getBannerText(comment.author)"></span>
+                    <!-- <span ng-show="comment.author == 'test'">gamma tester</span> -->
+
+                  </span>
+
+                </div>
+
+
+              </div>
+
+            <!--
             <table>
               <tr>
-                <td class="author">{{comment.author}}</td>
-                <td><span ng-hide="editingPost.which == comment._id" style="white-space: pre;" ng-bind="comment.body" style="font-size:20px; margin-left:10px;"></span>
+                <td class="author">{{comment.author}}
+
+               
+
+                  <span class="banner" ng-Class="comment.author">
+                    <span ng-show="comment.author == 'Lemonade'">pasta</span>
+                    <span ng-show="comment.author == 'test'">tester</span>
+             
+                  </span>
+
+               
+
+                </td>
+                <td class="postcontent"><span ng-hide="editingPost.which == comment._id" style="white-space: pre;" ng-bind="comment.body" style="font-size:20px; margin-left:10px;"></span>
               <!-- {{comment.body}} -->
               
             
@@ -153,7 +211,7 @@
             
             
               </tr>
-            </table>
+            </table> -->
             
             
             
@@ -167,7 +225,7 @@
             </div>
             
             <form ng-submit="addComment()" ng-show="isLoggedIn()" style="margin-top:30px;">
-            <h3>Add a new comment</h3>
+            <h3>Reply</h3>
             
             <textarea ng-model="body" cols="40" rows="10"></textarea>
             <br />

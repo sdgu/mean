@@ -183,6 +183,33 @@ router.post("/posts/:post/comments", auth, function(req, res, next)
 	});
 });
 
+
+router.get("/users", function(req, res, next)
+{
+	User.find(function(err, users)
+	{
+		if (err)
+		{
+			return next(err);
+		}
+
+		var data = [];
+		for (var i = 0; i < users.length; i++)
+		{
+			
+			data.push(
+				{
+					"username" : users[i].username,
+					"banner" : users[i].banner
+
+				});
+		}
+
+		res.json(data);
+
+	})
+})
+
 router.get("/posts", function(req, res, next)
 {
 	Post.find(function(err, posts)
