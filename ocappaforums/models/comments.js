@@ -6,8 +6,8 @@ var CommentSchema = new mongoose.Schema(
 	author: String,
 	date: String,
 	latestEdit: String,
-	likes: {type: Number, default: 0},
-	post: {type: mongoose.Schema.Types.ObjectId, ref: 'Post'}
+	likedBy: [String],
+	thread: {type: mongoose.Schema.Types.ObjectId, ref: 'Post'}
 });
 
 mongoose.model("Comment", CommentSchema);

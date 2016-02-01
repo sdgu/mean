@@ -82,6 +82,17 @@ a {
 
 }*/
 
+textarea
+{
+	/*min-width: 500px;*/
+/*    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+*/
+	width: 100%;
+
+}
+
 .tt 
 {
 	width: 300px;
@@ -118,9 +129,12 @@ a {
 
 .postcontent
 {
-	display: inline-block;
+	/*display: inline-block;*/
 	vertical-align: top;
-	margin-left: 20px;
+	margin-left: 180px;
+	margin-bottom: 15px;
+	word-wrap: break-word;
+
 
 }
 
@@ -129,8 +143,24 @@ a {
 	text-align: right;
 	bottom: 10px;
 	right: 10px;
-	position: absolute;
+	position: relative;
 
+
+}
+.miscDeets
+{
+	font-size: 12px;
+}
+.signature
+{
+	margin-bottom: 10px;
+	margin-left: 180px;
+	border-top: 1px dashed #A5CAE4;
+}
+
+.signature span
+{
+	/*margin-left: 180px;*/
 }
 
 .posts
@@ -142,6 +172,7 @@ a {
 	min-height: 200px;
 	margin-top: 20px;
 	position: relative;
+	width: 97%;
 
 }
 

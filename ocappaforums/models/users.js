@@ -21,7 +21,8 @@ var UserSchema = new mongoose.Schema(
 		avatar: String,
 		postCount: Number,
 		joinDate: String,
-		badges: [String]
+		badges: [String],
+		signature: String
 	},
 	hash: String,
 	salt: String

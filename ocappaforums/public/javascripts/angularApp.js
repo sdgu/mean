@@ -76,20 +76,20 @@ app.factory("auth", ["$http", "$window", function($http, $window)
 
 
 
-app.factory("posts", ["$http", "$window", 'auth', function($http, $window, auth)
+app.factory("threads", ["$http", "$window", 'auth', function($http, $window, auth)
 {
   var o = 
   {
-    posts: []
+    threads: []
   };
 
   o.getAll = function()
   {
     
-    return $http.get("/posts").success(function(data)
+    return $http.get("/threads").success(function(data)
     {
       //alert("getAllInReturn");
-      angular.copy(data, o.posts);
+      angular.copy(data, o.threads);
     });
   }
 
@@ -99,14 +99,14 @@ app.factory("posts", ["$http", "$window", 'auth', function($http, $window, auth)
     
     //alert(post.title);
 
-    return $http.post("/posts", post, 
+    return $http.post("/threads", post, 
       {
         headers: {Authorization: "Bearer " + auth.getToken()}
       }).success(function(data)
     {
       //alert("ah a post created");
       //alert(data.author);
-      o.posts.push(data);
+      o.threads.push(data);
     });
 
   };
@@ -131,7 +131,7 @@ app.factory("posts", ["$http", "$window", 'auth', function($http, $window, auth)
 
   o.get = function(id)
   {
-    return $http.get("/posts/" + id).then(function(res)
+    return $http.get("/threads/" + id).then(function(res)
     {
       //alert(res.data.toSource());
       return res.data;
@@ -149,7 +149,7 @@ app.factory("posts", ["$http", "$window", 'auth', function($http, $window, auth)
 
   o.addComment = function(id, comment)
   {
-    return $http.post("/posts/" + id + "/comments", comment, 
+    return $http.post("/threads/" + id + "/comments", comment, 
       {
         headers: {Authorization: "Bearer " + auth.getToken()}
       });
@@ -196,12 +196,12 @@ app.factory("users", ["$http", "$window", 'auth', function($http, $window, auth)
 app.controller('MainCtrl', [
 '$scope',
 'auth',
-'posts',
-function($scope, auth, posts)
+'threads',
+function($scope, auth, threads)
 {
   $scope.test = 'Hello world!';
-  $scope.posts = posts.posts;
-  // $scope.posts = 
+  $scope.threads = threads.threads;
+  // $scope.threads = 
   // [
   // {
   // 	title: "post 1",
@@ -235,7 +235,7 @@ function($scope, auth, posts)
   // $.getJSON("/comments", function(data)
   // {
 
-  //   $.each(posts.posts, function(index, vaule)
+  //   $.each(threads.threads, function(index, vaule)
   //   {
       
   //     var mostRecentCommentID = this.comments[this.comments.length-1];
@@ -262,7 +262,7 @@ function($scope, auth, posts)
   $scope.addPost = function()
   {
 
-    //alert($scope.posts[0].title);
+    //alert($scope.threads[0].title);
 
     if (!$scope.title || $scope.title === "")
     {
@@ -272,7 +272,7 @@ function($scope, auth, posts)
 
     var pDate = dateParse(new Date(), "est");
 
-    posts.create(
+    threads.create(
     {
       title: $scope.title,
       content: $scope.content,
@@ -281,7 +281,7 @@ function($scope, auth, posts)
       
     });
     //alert($scope.title);
-  	// $scope.posts.push(
+  	// $scope.threads.push(
   	// {
   	// 	title: $scope.title,
    //    link: $scope.link,
@@ -307,10 +307,10 @@ function($scope, auth, posts)
 // app.controller("BannerController", 
 //   [
 //   "$scope",
-//   "posts",
+//   "threads",
 //   "post",
 //   "auth",
-//   function($scope, posts, post, auth)
+//   function($scope, threads, post, auth)
 //   {
 
 //     //$scope.test = "o.o";
@@ -365,16 +365,25 @@ function dateParse(date, tzone)
 }
 
 
+     function expand()
+     {
+      alert("expanding");
+      //var element = typeof e === 'object' ? e.target : document.getElementById(e);
+        var element = document.getElementById("TextArea");
+        var scrollHeight = element.scrollHeight -60; // replace 60 by the sum of padding-top and padding-bottom
+        element.style.height =  scrollHeight + "px";    
+      };
+
 app.controller("PostsCtrl",
   [
     "$scope",
-    "posts",
+    "threads",
     "post",
     "auth",
 
-    function($scope, posts, post, auth)
+    function($scope, threads, post, auth)
     {
-      //$scope.post = posts.posts[$stateParams.id];
+      //$scope.post = threads.threads[$stateParams.id];
       $scope.post = post;
       $scope.content = post.content;
       $scope.isLoggedIn = auth.isLoggedIn;
@@ -417,8 +426,13 @@ app.controller("PostsCtrl",
      //$scope.bannerStyle = {'color' : 'red'};
      //$scope.lalala = "<img src='http://www.smogon.com/media/forums/data/avatars/m/67/67440.jpg.m.1434660905' />";
 
-     $scope.getPC = function(user)
-     {
+
+
+
+
+
+      $scope.getPC = function(user)
+      {
         var i = 0;
         while(i < userList.length)
         {
@@ -433,7 +447,7 @@ app.controller("PostsCtrl",
         }
 
         return userList[i].misc.postCount;
-     }
+      }
 
 
      $scope.getAvatar = function(user)
@@ -527,7 +541,7 @@ app.controller("PostsCtrl",
 
         var pDate = dateParse(new Date(), "est");
         //alert(pDate);
-        posts.addComment(post._id, 
+        threads.addComment(post._id, 
         {
           body: $scope.body,
           author: "user",
@@ -555,6 +569,8 @@ app.controller("PostsCtrl",
         
 
         $scope.data = {text: post.content};
+        setTimeout(function(){$scope.autoExpandOP()}, 1);
+        //$scope.autoExpand("TextArea");
         //alert($scope.data.text);
       }
 
@@ -567,7 +583,7 @@ app.controller("PostsCtrl",
         //alert(post.content);        
         //alert($scope.data.text);
 
-        posts.updateOP(post._id,
+        threads.updateOP(post._id,
         {
           content: $scope.data.text,
           _id: post._id,
@@ -585,14 +601,62 @@ app.controller("PostsCtrl",
 
       }
 
+
+     $scope.autoExpandPost = function() 
+     {
+      //alert("autoexpanding");
+      //var element = typeof e === 'object' ? e.target : document.getElementById(e);
+        var element = document.getElementById("TextAreaPost");
+        var scrollHeight = element.scrollHeight + 20; // replace 60 by the sum of padding-top and padding-bottom
+        //var width = element.width + 100;
+        element.style.height =  scrollHeight + "px"; 
+        //element.style.width = width + "px"; 
+
+      
+      };
+
+     $scope.autoExpandOP = function() 
+     {
+      //alert("autoexpanding");
+      //var element = typeof e === 'object' ? e.target : document.getElementById(e);
+        var element = document.getElementById("TextArea");
+        var scrollHeight = element.scrollHeight + 20; // replace 60 by the sum of padding-top and padding-bottom
+        //var width = element.width + 100;
+        element.style.height =  scrollHeight + "px"; 
+        //element.style.width = width + "px"; 
+
+      
+      };
+
+      $scope.testf = function(comment)
+      {
+        $scope.editPost(comment);
+        
+        // $scope.$watch("editingPost.which == comment._id", function(n, o)
+        // {
+        //   //alert("the text is inside");
+        //   $scope.autoExpand();
+        // });
+      
+       
+      }
+
       $scope.editPost = function(comment)
       {
         
         //alert(comment._id);
-        $scope.editingPost = {which: comment._id};
-        //alert($scope.editingPost.which);
+        //$scope.autoExpand();
         $scope.amEditingPost = true;
+        $scope.editingPost = {which: comment._id};
+
+        //alert($scope.editingPost.which);
+        
         $scope.data = {text: comment.body};
+        setTimeout(function(){$scope.autoExpandPost()}, 1);
+    
+
+        
+        //$scope.autoExpand();
 
       }
 
@@ -602,7 +666,7 @@ app.controller("PostsCtrl",
         $scope.amEditingPost = false;
         $scope.editingPost = {which: ""};
 
-        posts.updateComment(comment._id,
+        threads.updateComment(comment._id,
         {
           text: $scope.data.text,
           postID: post._id,
@@ -687,23 +751,23 @@ app.config([
       controller: "MainCtrl",
       resolve:
       {
-        postPromise: ["posts", function(posts)
+        postPromise: ["threads", function(threads)
         {
-          return posts.getAll();
+          return threads.getAll();
         }]
       }
     });
 
-    $stateProvider.state("posts",
+    $stateProvider.state("threads",
     {
-      url: "/forums/posts/{id}",
-      templateUrl: "/posts.html",
+      url: "/forums/threads/{id}",
+      templateUrl: "/threads.html",
       controller: "PostsCtrl",
       resolve:
       {
-        post: ["$stateParams", "posts", function($stateParams, posts)
+        post: ["$stateParams", "threads", function($stateParams, threads)
         {
-          return posts.get($stateParams.id);
+          return threads.get($stateParams.id);
         }]
       }
     });

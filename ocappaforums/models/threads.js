@@ -12,7 +12,7 @@ var PostSchema = new mongoose.Schema(
 		user: String
 	},
 	replies: Number,
-	likes: {type: Number, default: 0},
+	likedBy: [String],
 	comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }]
 });
 
@@ -22,5 +22,5 @@ PostSchema.methods.like = function(cb)
 	this.save(cb);
 };
 
-mongoose.model("Post", PostSchema);
+mongoose.model("Thread", PostSchema);
 

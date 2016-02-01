@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require("mongoose");
-var Post = mongoose.model("Post");
+var Post = mongoose.model("Thread");
 var Comment = mongoose.model("Comment");
 var passport = require("passport");
 
@@ -121,7 +121,7 @@ router.param("post", function(req, res, next, id)
 
 
 
-router.get("/posts/:post", function(req, res)
+router.get("/threads/:post", function(req, res)
 {
 	
 	req.post.populate("comments", function(err, post)
@@ -134,7 +134,7 @@ router.get("/posts/:post", function(req, res)
 	});
 });
 
-router.put("/posts/:post/like", auth, function(req, res, next)
+router.put("/threads/:post/like", auth, function(req, res, next)
 {
 	req.post.like(function(err, post)
 	{
@@ -148,13 +148,13 @@ router.put("/posts/:post/like", auth, function(req, res, next)
 	
 });
 
-router.post("/posts/:post/comments", auth, function(req, res, next)
+router.post("/threads/:post/comments", auth, function(req, res, next)
 {
 	var comment = new Comment(req.body);
 	var post = Post;
 
 	var postID = req.body.postID;
-	comment.post = req.post;
+	comment.thread = req.post;
 	comment.date = req.body.date;
 	comment.author = req.payload.username;
 
@@ -236,18 +236,18 @@ router.get("/users", function(req, res, next)
 	})
 })
 
-router.get("/posts", function(req, res, next)
+router.get("/threads", function(req, res, next)
 {
-	Post.find(function(err, posts)
+	Post.find(function(err, threads)
 	{
-		//console.log(posts);
+		//console.log(threads);
 
 		if (err)
 		{
 			return next(err);
 		}
 
-		res.json(posts);
+		res.json(threads);
 	});
 });
 
@@ -261,7 +261,7 @@ router.get("/comments", function(req, res)
 	});
 });
 
-router.post("/posts", auth, function(req, res, next)
+router.post("/threads", auth, function(req, res, next)
 {
 	
 
