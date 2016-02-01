@@ -1,4 +1,4 @@
-var app = angular.module('OCAPForums', ["ui.router"]);
+var app = angular.module('OCAPPAForums', ["ui.router", "ngSanitize"]);
 
 
 app.factory("auth", ["$http", "$window", function($http, $window)
@@ -123,6 +123,8 @@ app.factory("posts", ["$http", "$window", 'auth', function($http, $window, auth)
       //alert(data.content);
       //$scope.updatedContent = data.content;
       //alert("done updating");
+
+
       $window.location.reload();
     });
   }
@@ -268,12 +270,14 @@ function($scope, auth, posts)
       return;
     }
 
+    var pDate = dateParse(new Date());
+
     posts.create(
     {
       title: $scope.title,
       content: $scope.content,
-      date: Date(),
-      latestPost: Date(),
+      date: pDate,
+      latestPost: pDate,
       
     });
     //alert($scope.title);
@@ -314,6 +318,43 @@ function($scope, auth, posts)
 //   }]);
 
 
+function dateParse(date)
+{
+  var year = "" + date.getUTCFullYear();
+  var month = date.getUTCMonth() + 1;
+  month = "" + month;
+  var day = "" + date.getUTCDate();
+  var hour = "" + date.getUTCHours();
+  var minute = "" + date.getUTCMinutes();
+  var sec = "" + date.getUTCSeconds();
+
+  if (month.length === 1)
+  {
+    month = "0" + month;
+  }
+  if (day.length === 1)
+  {
+    day = "0" + day;
+  }
+  if (hour.length === 1)
+  {
+    hour = "0" + hour;
+  }
+  if (minute.length === 1)
+  {
+    minute = "0" + minute;
+  }
+  if (sec.length === 1)
+  {
+    sec = "0" + sec;
+  }
+
+  var fullDate = year + month + day + hour + minute + sec;
+  //alert(fullDate);
+  return fullDate;
+}
+
+
 app.controller("PostsCtrl",
   [
     "$scope",
@@ -345,6 +386,8 @@ app.controller("PostsCtrl",
 
 
 
+      //dateParse(new Date());
+
       var userList = [];
       $.ajax(
       {
@@ -364,6 +407,25 @@ app.controller("PostsCtrl",
      //$scope.bannerStyle = {'color' : 'red'};
      //$scope.lalala = "<img src='http://www.smogon.com/media/forums/data/avatars/m/67/67440.jpg.m.1434660905' />";
 
+     $scope.getPC = function(user)
+     {
+        var i = 0;
+        while(i < userList.length)
+        {
+          if (user === userList[i].username)
+          {
+            break;
+          }
+          else
+          {
+            i++;
+          }
+        }
+
+        return userList[i].misc.postCount;
+     }
+
+
      $scope.getAvatar = function(user)
      {
         var i = 0;
@@ -378,14 +440,14 @@ app.controller("PostsCtrl",
             i++;
           }
         }
-        //alert('<img src="' + userList[i].avatar + '" />');
-        if (userList[i].avatar === "none")
+
+        if (userList[i].misc.avatar === "none")
         {
           return '/images/226377.jpg.m.1451801726.jpg';
         }
         else
         {
-          return userList[i].avatar;
+          return userList[i].misc.avatar;
         }
         
 
@@ -452,11 +514,14 @@ app.controller("PostsCtrl",
           return;
         } 
 
+
+        var pDate = dateParse(new Date());
+        //alert(pDate);
         posts.addComment(post._id, 
         {
           body: $scope.body,
           author: "user",
-          date: Date(),
+          date: pDate,
           postID: post._id,
         }).success(function(comment)
         {
@@ -469,6 +534,7 @@ app.controller("PostsCtrl",
         //   likes: 0
         // });
         $scope.body = "";
+
       };
 
       $scope.editOP = function()
@@ -500,7 +566,9 @@ app.controller("PostsCtrl",
         {
           //alert(post.content);
           //alert($scope.data.text);
-          $scope.content = $scope.data.text;
+
+          //$scope.content = $scope.data.text;
+
           //$scope.content = post.content;
         });
 
@@ -536,7 +604,8 @@ app.controller("PostsCtrl",
 
           //alert($scope.comment.body);
           //$scope.post.comments.push(comment);
-          $scope.comment.body = $scope.data.text;
+          //alert($scope.data.text);
+          //$scope.comment.body = $scope.data.text;
         });
       }
 

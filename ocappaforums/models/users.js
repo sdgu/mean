@@ -16,9 +16,13 @@ var UserSchema = new mongoose.Schema(
 
 
 	},
-	avatar: String,
-	postCount: Number,
-	joinDate: String,
+	misc:
+	{
+		avatar: String,
+		postCount: Number,
+		joinDate: String,
+		badges: [String]
+	},
 	hash: String,
 	salt: String
 });

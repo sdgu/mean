@@ -45,6 +45,17 @@ router.post("/register", function(req, res, next)
 
 	user.setPassword(req.body.password);
 
+	user.misc.avatar = "none";
+
+	user.banner.text = "plain yogurt";
+
+	user.banner.backgroundCol = "#fff";
+	user.misc.postCount = 0;
+	//var d = new Date();
+	user.misc.joinDate = Date();
+
+	//d.getFullYear() + " " + d.getMonth() + " " + d.getDate() + " " + d.getHours() + " " + d.getMinutes() + " " + d.getSeconds();
+
 	user.save(function(err)
 	{
 		if (err)
@@ -147,39 +158,51 @@ router.post("/posts/:post/comments", auth, function(req, res, next)
 	comment.date = req.body.date;
 	comment.author = req.payload.username;
 
-	comment.save(function(err, comment)
+
+	User.findOneAndUpdate(
 	{
-		if (err)
-		{
-			return next(err);
-		}
+		username : req.payload.username
+	},
+	{
+		$inc: {'misc.postCount' : 1}
+	}, function(err, docs)
+	{
+		if (err) return next(err);
 
-		req.post.comments.push(comment);
-
-		post.findOneAndUpdate(
+		comment.save(function(err, comment)
 		{
-			_id: postID
-		},
-		{
-			latestPost: req.body.date
-		}, function(err, docs)
-		{
-			if (err) return next(err);
-
-			req.post.save(function(err, post)
+			if (err)
 			{
-				if (err)
+				return next(err);
+			}
+
+			req.post.comments.push(comment);
+
+			post.findOneAndUpdate(
+			{
+				_id: postID
+			},
+			{
+				latestPost: req.body.date
+			}, function(err, docs)
+			{
+				if (err) return next(err);
+
+				req.post.save(function(err, post)
 				{
-					return next(err);
-				}
+					if (err)
+					{
+						return next(err);
+					}
 
-				res.json(comment);
-			});
+					res.json(comment);
+				});
 
-		})
+			})
 
 
 
+		});
 	});
 });
 
@@ -201,7 +224,7 @@ router.get("/users", function(req, res, next)
 				{
 					"username" : users[i].username,
 					"banner" : users[i].banner,
-					"avatar" : users[i].avatar
+					"misc" : users[i].misc
 
 				});
 		}
@@ -246,17 +269,28 @@ router.post("/posts", auth, function(req, res, next)
 	post.author = req.payload.username;
 	console.log(post);
 	
-
-	post.save(function(err, post)
+	User.findOneAndUpdate(
 	{
-		if (err)
+		username : req.payload.username
+	},
+	{
+		$inc: {'misc.postCount' : 1}
+	}, function(err, docs)
+	{
+		if (err) return next(err);
+		console.log("inc username pc: " + docs);
+	
+
+		post.save(function(err, post)
 		{
-			return next(err);
-		}
+			if (err)
+			{
+				return next(err);
+			}
 
-		res.json(post);
+			res.json(post);
+		});
 	});
-
 
 });
 
