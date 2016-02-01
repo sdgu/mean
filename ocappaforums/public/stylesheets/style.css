@@ -6,15 +6,19 @@ body
     background-color: #f2f2f2;
 }
 
-input {
+input 
+{
     font-family: Ubuntu, sans-serif;
 }
 
-textarea {
+textarea 
+{
     font-family: Ubuntu, sans-serif;
+    width: 100%;
 }
 
-a {
+a 
+{
   color: #00B7FF;
 }
 #headernav
@@ -22,7 +26,7 @@ a {
 	margin-bottom: 5px;
 }
 
-
+/*************Page Container stuff***************/
 #content
 {
 	margin: 0px;
@@ -42,57 +46,10 @@ a {
 	background-color: #fcfcff;
 	padding: 10px 20px;
 }
-/*
-#page 
-{
-    margin: -40px 50px;
-    padding: 5px 20px 50px;
-    box-shadow: 0px 0px 7px #999;
-    background: #fff none repeat scroll 0% 0%;
-    position: relative;
-    max-width: 60rem;
-    min-width: 45rem;
-}
-*/
-/*.op
-{
-	background: #FFF none repeat scroll 0% 0%;
-	border: 1px solid #176093;
-	padding: 10px;
-	border-radius: 9px;
-	min-height: 150px;
-	position: relative;
-
-}
-*/
-/*.author
-{
-	/* margin-right: 150px;
-	display: inline-block;
-	vertical-align: top;
-	width: 150px;
-	height: 150px;
-	background: #F0F7FC;
-	border-radius: 9px;
-	text-align: center;
-	position: relative;
 
 
 
-
-}*/
-
-textarea
-{
-	/*min-width: 500px;*/
-/*    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
-*/
-	width: 100%;
-
-}
-
+/*************Threads*******************/
 .tt 
 {
 	width: 300px;
@@ -127,6 +84,10 @@ textarea
 	font-size: 12px;
 }
 
+
+
+
+/**************************posts (comments)***************************/
 .postcontent
 {
 	/*display: inline-block;*/
@@ -219,13 +180,6 @@ textarea
 
 	text-align: center;
 }
-/*
-.wrapped
-{
-	border-top-right-radius: 0px;
-	border-top-left-radius: 0px;
-	position: relative;
-}*/
 
 .banner
 {
@@ -243,11 +197,6 @@ textarea
 	border-radius: 4px;
 	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
 	text-align: center;
-/*	text-shadow: 1px 1px #000;*/
-
-/*
-	border-top-right-radius: 0px;
-	border-top-left-radius: 0px;*/
 
 	margin-left: -6px;
 	margin-right: -6px;
@@ -266,17 +215,3 @@ nav
 {
 	margin-top: 10px;
 }
-
-/*.Lemonade
-{
-	color: #000;
-	background-color: #808080;
-	border-color: #AAA;
-}*/
-
-
-/*.test
-{
-	background-color: #B6A0D4;
-	color: #4F627A;
-}*/
