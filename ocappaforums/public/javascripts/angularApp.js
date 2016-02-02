@@ -74,6 +74,28 @@ app.factory("auth", ["$http", "$window", function($http, $window)
 }])
 
 
+app.factory("members", ["$http", "$window", "auth", function($http, $window, auth)
+{
+
+  var o = 
+  {
+    threads: []
+  };
+
+  o.get = function(user)
+  {
+    //alert(user);
+
+    return $http.get("/users/" + user).then(function(res)
+    {
+      return res.data;
+    });
+  }
+
+  return o;
+}]);
+
+
 
 
 app.factory("threads", ["$http", "$window", 'auth', function($http, $window, auth)
@@ -90,6 +112,16 @@ app.factory("threads", ["$http", "$window", 'auth', function($http, $window, aut
     {
       //alert("getAllInReturn");
       angular.copy(data, o.threads);
+    });
+  }
+
+
+  o.get = function(id)
+  {
+    return $http.get("/threads/" + id).then(function(res)
+    {
+      //alert(res.data.toSource());
+      return res.data;
     });
   }
 
@@ -144,14 +176,7 @@ app.factory("threads", ["$http", "$window", 'auth', function($http, $window, aut
 
 
 
-  o.get = function(id)
-  {
-    return $http.get("/threads/" + id).then(function(res)
-    {
-      //alert(res.data.toSource());
-      return res.data;
-    });
-  }
+
 
 
   o.getUsers = function()
@@ -185,28 +210,7 @@ app.factory("threads", ["$http", "$window", 'auth', function($http, $window, aut
   return o;
 }]);
 
-app.factory("users", ["$http", "$window", 'auth', function($http, $window, auth)
-{
-  var o = 
-  {
-    users: []
-  };
 
-  o.getAllUsers = function()
-  {
-    
-    return $http.get("/users").success(function(data)
-    {
-      //alert("getAllInReturn");
-      angular.copy(data, o.users);
-    });
-
-
-
-  }
-
-
-}]);
 
 app.controller('MainCtrl', [
 '$scope',
@@ -388,6 +392,29 @@ function dateParse(date, tzone)
         var scrollHeight = element.scrollHeight -60; // replace 60 by the sum of padding-top and padding-bottom
         element.style.height =  scrollHeight + "px";    
       };
+
+
+app.controller("MembCtrl",
+  [
+    "$scope",
+    "auth",
+    "post",
+    "threads",
+    function($scope, auth, post, threads)
+    {
+      $scope.isLoggedIn = auth.isLoggedIn;
+      $scope.currentUser = auth.currentUser;
+      $scope.post = post;
+
+      $scope.test = function()
+      {
+        alert("o.o");
+      }
+
+
+    }
+  ])
+
 
 app.controller("PostsCtrl",
   [
@@ -815,6 +842,22 @@ app.config([
         }]
       }
     });
+
+
+    $stateProvider.state("members",
+    {
+      url: "/users/{username}",
+      templateUrl: "/members.html",
+      controller: "MembCtrl",
+      resolve:
+      {
+        post: ["$stateParams", "members", function($stateParams, members)
+        {
+          return members.get($stateParams.username);
+        }]        
+      }
+    });
+
 
     $stateProvider.state("threads",
     {

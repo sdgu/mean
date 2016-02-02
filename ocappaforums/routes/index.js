@@ -118,7 +118,24 @@ router.param("post", function(req, res, next, id)
 	});
 });
 
+router.param("username", function(req, res, next, name)
+{
+	var query = User.findOne({"username" : name});
 
+	query.exec(function(err, user)
+	{
+		if (err) return next(err);
+		if (!user) return next(new Error("rip"));
+
+		req.user = user;
+		return next();
+	});
+});
+
+router.get("/users/:username", function(req, res)
+{
+	res.json(req.username);
+})
 
 
 router.get("/threads/:post", function(req, res)
@@ -224,6 +241,7 @@ router.get("/users", function(req, res, next)
 			
 			data.push(
 				{
+					"_id" : users[i]._id,
 					"username" : users[i].username,
 					"banner" : users[i].banner,
 					"misc" : users[i].misc
