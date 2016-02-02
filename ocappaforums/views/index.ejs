@@ -120,9 +120,9 @@
 
         <script type="text/ng-template" id="/members.html">
 
-          This is who is signed in: 
-          <span ng-bind="currentUser()"></span>
-          <a href="" ng-click="test()">o.o</a>
+
+          <h3>Profile of user {{post.username}}</h3>
+   
 
 
 
@@ -224,7 +224,7 @@
           </div>
 
           <div class="userText">
-            <a href=""><span class="username" ng-bind="post.author"></span></a>
+            <a href="/#/users/{{post.author}}"><span class="username" ng-bind="post.author"></span></a>
             <span class="customtitle"></span>
             <div class="badges"></div>
             <span ng-style="getBannerStyle(post.author)" class="banner wrapped" ng-Class="post.author">

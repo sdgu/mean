@@ -79,7 +79,7 @@ app.factory("members", ["$http", "$window", "auth", function($http, $window, aut
 
   var o = 
   {
-    threads: []
+    members: []
   };
 
   o.get = function(user)
@@ -120,7 +120,8 @@ app.factory("threads", ["$http", "$window", 'auth', function($http, $window, aut
   {
     return $http.get("/threads/" + id).then(function(res)
     {
-      //alert(res.data.toSource());
+      alert(res.data.toSource());
+      alert("in the factory");
       return res.data;
     });
   }
@@ -220,62 +221,11 @@ function($scope, auth, threads)
 {
   $scope.test = 'Hello world!';
   $scope.threads = threads.threads;
-  // $scope.threads = 
-  // [
-  // {
-  // 	title: "post 1",
-  // 	likes: 5
-  // },
-  // {
-  // 	title: "post 2",
-  // 	likes: 69
-  // }
-  // ];
 
-//   app.controller('NavCtrl', [
-// '$scope',
-// 'auth',
-// function($scope, auth){
-
-
-
-//   $scope.isLoggedIn = auth.isLoggedIn;
-//   $scope.currentUser = auth.currentUser;
-//   $scope.logOut = auth.logOut;
-// }]);
   $scope.isLoggedIn = auth.isLoggedIn;
   $scope.currentUser = auth.currentUser;
 
  
-
-  //alert(auth.currentUser);
-  //$("#author").text($scope.currentUser);
-
-  // $.getJSON("/comments", function(data)
-  // {
-
-  //   $.each(threads.threads, function(index, vaule)
-  //   {
-      
-  //     var mostRecentCommentID = this.comments[this.comments.length-1];
-  //     var arrayPos = data.map(function(arrayItem)
-  //     {
-  //         return arrayItem._id;
-  //     }).indexOf(mostRecentCommentID);
-
-  //     if (arrayPos > -1)
-  //     {
-  //       //alert(arrayPos + " " + data[arrayPos].date);
-  //       $scope.latestPost = data[arrayPos].date;
-  //     }
-
-  //   })
-    
-  //   //alert(post.comments[post.comments.length - 1]);
-
-
-
-  // });
 
 
   $scope.addPost = function()
@@ -300,16 +250,16 @@ function($scope, auth, threads)
       
     });
     //alert($scope.title);
-  	// $scope.threads.push(
-  	// {
-  	// 	title: $scope.title,
+    // $scope.threads.push(
+    // {
+    //  title: $scope.title,
    //    link: $scope.link,
    //    likes: 0,
    //    comments:
    //    [
    //      {author: "pasta", body: "this is pasta", likes: 10}
    //    ]
-  	// });
+    // });
     $scope.title = "";
     $scope.content = "";
   };
@@ -322,19 +272,6 @@ function($scope, auth, threads)
 
 }]);
 
-
-// app.controller("BannerController", 
-//   [
-//   "$scope",
-//   "threads",
-//   "post",
-//   "auth",
-//   function($scope, threads, post, auth)
-//   {
-
-//     //$scope.test = "o.o";
-
-//   }]);
 
 
 function dateParse(date, tzone)
@@ -400,15 +337,22 @@ app.controller("MembCtrl",
     "auth",
     "post",
     "threads",
-    function($scope, auth, post, threads)
+    "members",
+    //"user",
+    function($scope, auth, post, threads, members)//, user)
     {
       $scope.isLoggedIn = auth.isLoggedIn;
       $scope.currentUser = auth.currentUser;
       $scope.post = post;
 
+      //$scope.user = user;
+
+      $scope.members = members;
+
+
       $scope.test = function()
       {
-        alert("o.o");
+        alert(post.username);
       }
 
 
@@ -435,6 +379,7 @@ app.controller("PostsCtrl",
       $scope.amEditingPost = false;
       $scope.editingTitle = false;
       
+     alert("in the controller");
 
       if ($scope.post.author === $scope.currentUser())
       {
@@ -868,6 +813,8 @@ app.config([
       {
         post: ["$stateParams", "threads", function($stateParams, threads)
         {
+          //returns json of the thread op I think
+          alert("in the stateProvider")
           return threads.get($stateParams.id);
         }]
       }

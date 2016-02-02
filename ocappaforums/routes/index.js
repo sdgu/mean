@@ -134,15 +134,27 @@ router.param("username", function(req, res, next, name)
 
 router.get("/users/:username", function(req, res)
 {
-	res.json(req.username);
-})
+
+	 console.log(req.user);
+	// req.user.populate("username", function(err, user)
+	// {
+	// 	if (err) return err;
+	 res.json(req.user);
+	// });
+
+	
+});
 
 
 router.get("/threads/:post", function(req, res)
 {
-	
+	console.log(req.post);
+
+	//populate gets the comments from the ids
 	req.post.populate("comments", function(err, post)
 	{
+		
+
 		if (err)
 		{
 			return next(err)
