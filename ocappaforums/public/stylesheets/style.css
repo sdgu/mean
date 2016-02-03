@@ -15,6 +15,7 @@ textarea
 {
     font-family: Ubuntu, sans-serif;
     width: 100%;
+    min-height: 300px;
 }
 
 a 
@@ -252,4 +253,9 @@ nav
 {
 	padding-bottom: 5px;
 
+}
+
+.updateUserInfo td
+{
+	padding-right: 10px;
 }

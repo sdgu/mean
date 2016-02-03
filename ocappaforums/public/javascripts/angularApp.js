@@ -227,9 +227,10 @@ app.factory("threads", ["$http", "$window", 'auth', function($http, $window, aut
 
 app.controller('MainCtrl', [
 '$scope',
+'$rootScope',
 'auth',
 'threads',
-function($scope, auth, threads)
+function($scope, $rootScope, auth, threads)
 {
   $scope.test = 'Hello world!';
   $scope.threads = threads.threads;
@@ -237,7 +238,7 @@ function($scope, auth, threads)
   $scope.isLoggedIn = auth.isLoggedIn;
   $scope.currentUser = auth.currentUser;
 
- 
+  $rootScope.header = "Forums";
 
 
   $scope.addPost = function()
@@ -372,8 +373,10 @@ app.controller("MembCtrl",
       $scope.textCol = post.banner.textCol;
       $scope.backColor = post.banner.backgroundCol;
 
+      $scope.hoverText = post.banner.hover;
+      $scope.sprite = post.banner.sprite;
 
-
+      $scope.avatar = post.misc.avatar;
 
 
 
@@ -383,6 +386,9 @@ app.controller("MembCtrl",
         var bannerText = $scope.bannerText;
         var textCol = $scope.textCol;
         var bannerBack = $scope.backColor;
+        var hoverText = $scope.hoverText;
+        var sprite = $scope.sprite;
+        var avatar = $scope.avatar;
         
         //alert(textCol);
         members.updateUserInfo( 
@@ -391,136 +397,156 @@ app.controller("MembCtrl",
           bannerText: bannerText,
           textCol: textCol,
           bannerBack: bannerBack,
+          hoverText: hoverText,
+          sprite: sprite,
+          avatar: avatar,
         }).success(function()
         {
 
         });
       }
 
+{
+     //  var userList = [];
+     //  $.ajax(
+     //  {
+     //    url: "/users",
+     //    async: false,
+     //    dataType: "json",
+     //    success: function (json)
+     //    {
+     //      userList = json;
+     //    }
+     //  });
 
-      var userList = [];
-      $.ajax(
-      {
-        url: "/users",
-        async: false,
-        dataType: "json",
-        success: function (json)
-        {
-          userList = json;
-        }
-      });
+     //  $scope.getPC = function(user)
+     //  {
+     //    var i = 0;
+     //    while(i < userList.length)
+     //    {
+     //      if (user === userList[i].username)
+     //      {
+     //        break;
+     //      }
+     //      else
+     //      {
+     //        i++;
+     //      }
+     //    }
 
-      $scope.getPC = function(user)
-      {
-        var i = 0;
-        while(i < userList.length)
-        {
-          if (user === userList[i].username)
-          {
-            break;
-          }
-          else
-          {
-            i++;
-          }
-        }
-
-        return userList[i].misc.postCount;
-      }
+     //    return userList[i].misc.postCount;
+     //  }
 
 
-     $scope.getAvatar = function(user)
-     {
-        var i = 0;
-        while(i < userList.length)
-        {
-          if (user === userList[i].username)
-          {
-            break;
-          }
-          else
-          {
-            i++;
-          }
-        }
+     // $scope.getAvatar = function(user)
+     // {
+     //    var i = 0;
+     //    while(i < userList.length)
+     //    {
+     //      if (user === userList[i].username)
+     //      {
+     //        break;
+     //      }
+     //      else
+     //      {
+     //        i++;
+     //      }
+     //    }
 
-        if (userList[i].misc.avatar === "none")
-        {
-          return '/images/226377.jpg.m.1451801726.jpg';
-        }
-        else
-        {
-          return userList[i].misc.avatar;
-        }
+     //    if (userList[i].misc.avatar === "none")
+     //    {
+     //      return '/images/226377.jpg.m.1451801726.jpg';
+     //    }
+     //    else
+     //    {
+     //      return userList[i].misc.avatar;
+     //    }
         
-     }
+     // }
 
-     $scope.getSprite = function(user)
-     {
-        var i = 0;
-        while(i < userList.length)
-        {
-          if (user === userList[i].username)
-          {
-            break;
-          }
-          else
-          {
-            i++;
-          }
-        }
+     // $scope.getSprite = function(user)
+     // {
+     //    var i = 0;
+     //    while(i < userList.length)
+     //    {
+     //      if (user === userList[i].username)
+     //      {
+     //        break;
+     //      }
+     //      else
+     //      {
+     //        i++;
+     //      }
+     //    }
 
-        if (userList[i].banner.sprite === "none")
-        {
-          return '';
-        }
-        else
-        {
-          return userList[i].banner.sprite;
-        }        
+     //    if (userList[i].banner.sprite === "none")
+     //    {
+     //      return '';
+     //    }
+     //    else
+     //    {
+     //      return userList[i].banner.sprite;
+     //    }        
 
       
-     }
+     // }
 
 
-      $scope.getBannerStyle = function(user)
-      {
-        var i = 0;
-        while(i < userList.length)
-        {
-          if (user === userList[i].username)
-          {
-            break;
-          }
-          else
-          {
-            i++;
-          }
-        }
+     //  $scope.getBannerStyle = function(user)
+     //  {
+     //    var i = 0;
+     //    while(i < userList.length)
+     //    {
+     //      if (user === userList[i].username)
+     //      {
+     //        break;
+     //      }
+     //      else
+     //      {
+     //        i++;
+     //      }
+     //    }
  
-        return {'color' : userList[i].banner.textCol, 'background-color' : userList[i].banner.backgroundCol, 'border-color' : userList[i].banner.borderCol};
+     //    return {'color' : userList[i].banner.textCol, 'background-color' : userList[i].banner.backgroundCol, 'border-color' : userList[i].banner.borderCol};
         
 
-      }
+     //  }
 
-      $scope.getBannerText = function(user)
-      {
+     //  $scope.getBannerText = function(user)
+     //  {
         
-        var i = 0;
-        while(i < userList.length)
-        {
-          if (user === userList[i].username)
-          {
-            break;
-          }
-          else
-          {
-            i++;
-          }
-        }
-        return userList[i].banner.text;
-      }
+     //    var i = 0;
+     //    while(i < userList.length)
+     //    {
+     //      if (user === userList[i].username)
+     //      {
+     //        break;
+     //      }
+     //      else
+     //      {
+     //        i++;
+     //      }
+     //    }
+     //    return userList[i].banner.text;
+     //  }
 
+     //  $scope.getHText = function(user)
+     //  {
+     //    var i = 0;
+     //    while(i < userList.length)
+     //    {
+     //      if (user === userList[i].username)
+     //      {
+     //        break;
+     //      }
+     //      else
+     //      {
+     //        i++;
+     //      }
+     //    }
+     //    return userList[i].banner.hover;
+     //  }
+}
       $scope.test = function()
       {
         alert(post.username);
@@ -536,11 +562,12 @@ app.controller("MembCtrl",
 app.controller("PostsCtrl",
   [
     "$scope",
+    "$rootScope",
     "threads",
     "post",
     "auth",
 
-    function($scope, threads, post, auth)
+    function($scope, $rootScope, threads, post, auth)
     {
       //$scope.post = threads.threads[$stateParams.id];
       $scope.post = post;
@@ -552,6 +579,8 @@ app.controller("PostsCtrl",
       $scope.amEditingPost = false;
       $scope.editingTitle = false;
       
+      $rootScope.header = post.title;
+
       //alert("in the controller");
 
       if ($scope.post.author === $scope.currentUser())
@@ -605,14 +634,9 @@ app.controller("PostsCtrl",
           }
         }
 
-        if (userList[i].banner.sprite === "none")
-        {
-          return '';
-        }
-        else
-        {
+
           return userList[i].banner.sprite;
-        }        
+             
 
       
      }
@@ -705,15 +729,6 @@ app.controller("PostsCtrl",
           }
         }
         return userList[i].banner.text;
-
-          // if (user == "Lemonade")
-          // {
-          //   return "potato toaster";
-          // }
-          // else if (user == "test")
-          // {
-          //   return "gamma tester";
-          // }
 
       }
 

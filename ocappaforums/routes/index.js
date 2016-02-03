@@ -45,9 +45,10 @@ router.post("/register", function(req, res, next)
 
 	user.setPassword(req.body.password);
 
-	user.misc.avatar = "none";
+	user.misc.avatar = "/images/226377.jpg.m.1451801726.jpg";
 
 	user.banner.text = "plain yogurt";
+	user.banner.sprite="/images/trans.png";
 
 	user.banner.backgroundCol = "#f0f0f0";
 	user.misc.postCount = 0;
@@ -446,7 +447,11 @@ router.post("/updateUserInfo", auth, function(req, res, next)
 	{
 		"banner.text": req.body.bannerText,
 		"banner.textCol": req.body.textCol,
-		"banner.backgroundCol": req.body.bannerBack
+		"banner.backgroundCol": req.body.bannerBack,
+		"banner.hover": req.body.hoverText,
+		"banner.sprite": req.body.sprite,
+		"misc.avatar": req.body.avatar
+
 	}, function(err, docs)
 	{
 		if (err) return next(err);

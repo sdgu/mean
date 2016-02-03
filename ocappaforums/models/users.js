@@ -18,11 +18,14 @@ var UserSchema = new mongoose.Schema(
 	},
 	misc:
 	{
+		threads: [String],
+		posts: [String],
 		avatar: String,
 		postCount: Number,
 		joinDate: String,
 		badges: [String],
-		signature: String
+		signature: String,
+		rank: String
 	},
 	hash: String,
 	salt: String
