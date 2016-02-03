@@ -121,16 +121,58 @@
         <script type="text/ng-template" id="/members.html">
 
 
+
+
           <h3>Profile of user {{post.username}}</h3>
    
+  
+
+          <div class="posts">
+            <div class="userspostbit">
+
+              <div class="avatar">
+
+                <img ng-src="{{getAvatar(post.username)}}" />      
+              </div>
+
+              <div class="userText">
+                <a href="/#/users/{{post.username}}"><span class="username" ng-bind="post.username"></span></a>
+                <span class="customtitle"></span>
+                <div class="badges"></div>
+                <span ng-style="getBannerStyle(post.username)" class="banner wrapped" ng-Class="post.username">
 
 
+                
+                <img class="sprite" ng-src="{{getSprite(post.username)}}" / >
+
+                  <span ng-bind="getBannerText(post.username)">
+
+                  </span>
+
+                </span>
+
+                <div class="miscData">
+                  Posts: <span ng-bind="getPC(post.username)"></span>
+                </div>
+
+              </div>
+            </div>
+
+              <div class="userscontent">
+              
+                <form ng-submit="updateUserInfo(post.username)">
+
+                  <input ng-bind="bannerText" placeholder="banner text"></input>
+
+                  <br />
+                  <button type="submit">Save</button>
+                </form>
 
 
+              </div>
 
 
-
-
+              </div>
 
 
 

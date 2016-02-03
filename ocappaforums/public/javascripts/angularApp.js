@@ -120,8 +120,8 @@ app.factory("threads", ["$http", "$window", 'auth', function($http, $window, aut
   {
     return $http.get("/threads/" + id).then(function(res)
     {
-      alert(res.data.toSource());
-      alert("in the factory");
+      //alert(res.data.toSource());
+      //alert("in the factory");
       return res.data;
     });
   }
@@ -350,6 +350,126 @@ app.controller("MembCtrl",
       $scope.members = members;
 
 
+      $scope.updateUserInfo = function(user)
+      {
+        alert(user);
+      }
+
+
+      var userList = [];
+      $.ajax(
+      {
+        url: "/users",
+        async: false,
+        dataType: "json",
+        success: function (json)
+        {
+          userList = json;
+        }
+      });
+
+      $scope.getPC = function(user)
+      {
+        var i = 0;
+        while(i < userList.length)
+        {
+          if (user === userList[i].username)
+          {
+            break;
+          }
+          else
+          {
+            i++;
+          }
+        }
+
+        return userList[i].misc.postCount;
+      }
+
+
+     $scope.getAvatar = function(user)
+     {
+        var i = 0;
+        while(i < userList.length)
+        {
+          if (user === userList[i].username)
+          {
+            break;
+          }
+          else
+          {
+            i++;
+          }
+        }
+
+        if (userList[i].misc.avatar === "none")
+        {
+          return '/images/226377.jpg.m.1451801726.jpg';
+        }
+        else
+        {
+          return userList[i].misc.avatar;
+        }
+        
+     }
+
+     $scope.getSprite = function(user)
+     {
+        var i = 0;
+        while(i < userList.length)
+        {
+          if (user === userList[i].username)
+          {
+            break;
+          }
+          else
+          {
+            i++;
+          }
+        }
+
+        return userList[i].banner.sprite;
+     }
+
+
+      $scope.getBannerStyle = function(user)
+      {
+        var i = 0;
+        while(i < userList.length)
+        {
+          if (user === userList[i].username)
+          {
+            break;
+          }
+          else
+          {
+            i++;
+          }
+        }
+ 
+        return {'color' : userList[i].banner.textCol, 'background-color' : userList[i].banner.backgroundCol, 'border-color' : userList[i].banner.borderCol};
+        
+
+      }
+
+      $scope.getBannerText = function(user)
+      {
+        
+        var i = 0;
+        while(i < userList.length)
+        {
+          if (user === userList[i].username)
+          {
+            break;
+          }
+          else
+          {
+            i++;
+          }
+        }
+        return userList[i].banner.text;
+      }
+
       $scope.test = function()
       {
         alert(post.username);
@@ -358,6 +478,8 @@ app.controller("MembCtrl",
 
     }
   ])
+
+
 
 
 app.controller("PostsCtrl",
@@ -379,7 +501,7 @@ app.controller("PostsCtrl",
       $scope.amEditingPost = false;
       $scope.editingTitle = false;
       
-     alert("in the controller");
+      //alert("in the controller");
 
       if ($scope.post.author === $scope.currentUser())
       {
@@ -814,7 +936,7 @@ app.config([
         post: ["$stateParams", "threads", function($stateParams, threads)
         {
           //returns json of the thread op I think
-          alert("in the stateProvider")
+          //alert("in the stateProvider")
           return threads.get($stateParams.id);
         }]
       }

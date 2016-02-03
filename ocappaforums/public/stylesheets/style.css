@@ -139,6 +139,13 @@ a
 
 }
 
+.userscontent
+{
+	vertical-align: top;
+	margin-right: 180px;
+	margin-bottom: 15px;
+	word-wrap: break-word;
+}
 
 .postbit
 {
@@ -153,6 +160,26 @@ a
 	position: relative;
 }
 
+.userspostbit
+{
+
+	float: right;
+	width: 150px;
+	height: 200px;
+	background-color: #D7EDFC;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #D7EDFC;
+	border-radius: 5px;
+	position: relative;
+
+}
+
+.sprite
+{
+
+	position: absolute;
+}
 
 .avatar
 {
