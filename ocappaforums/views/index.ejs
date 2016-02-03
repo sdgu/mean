@@ -162,14 +162,15 @@
               
                 <form ng-submit="updateUserInfo(post.username)">
                   <!-- https://github.com/buberdds/angular-bootstrap-colorpicker -->
+                  <h4>Banner Text</h4>
                   <input ng-model="bannerText" placeholder="banner text"></input>
-                  <br />
+                  <h4>Text Color</h4>
                   <input colorpicker ng-model="textCol" placeholder="banner text color"></input>
-                  <br />
+                  <h4>Background Color</h4>
                   <input colorpicker ng-model="backColor" placeholder="banner background color"></input>
 
                   
-
+                  <br />
                   <br />
                   <button type="submit">Save</button>
                 </form>
