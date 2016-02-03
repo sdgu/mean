@@ -435,4 +435,23 @@ router.post("/updateComment", auth, function(req, res, next)
 });
 
 
+router.post("/updateUserInfo", auth, function(req, res, next)
+{
+	console.log(req.body.bannerText);
+
+	User.findOneAndUpdate(
+	{
+		username: req.body.user
+	},
+	{
+		"banner.text": req.body.bannerText,
+		"banner.textCol": req.body.textCol,
+		"banner.backgroundCol": req.body.bannerBack
+	}, function(err, docs)
+	{
+		if (err) return next(err);
+		res.json(docs);
+	})
+})
+
 module.exports = router;

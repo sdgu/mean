@@ -1,4 +1,4 @@
-var app = angular.module('OCAPPAForums', ["ui.router", "ngSanitize"]);
+var app = angular.module('OCAPPAForums', ["ui.router", "ngSanitize", "colorpicker.module"]);
 
 
 app.factory("auth", ["$http", "$window", function($http, $window)
@@ -89,6 +89,18 @@ app.factory("members", ["$http", "$window", "auth", function($http, $window, aut
     return $http.get("/users/" + user).then(function(res)
     {
       return res.data;
+    });
+  }
+
+
+  o.updateUserInfo = function(info)
+  {
+    return $http.post("/updateUserInfo", info,
+    {
+      headers: {Authorization: "Bearer " + auth.getToken()}
+    }).success(function(data)
+    {
+      $window.location.reload();
     });
   }
 
@@ -331,15 +343,18 @@ function dateParse(date, tzone)
       };
 
 
+
+
 app.controller("MembCtrl",
   [
+    "$rootScope",
     "$scope",
     "auth",
     "post",
     "threads",
     "members",
     //"user",
-    function($scope, auth, post, threads, members)//, user)
+    function($rootScope, $scope, auth, post, threads, members)//, user)
     {
       $scope.isLoggedIn = auth.isLoggedIn;
       $scope.currentUser = auth.currentUser;
@@ -348,11 +363,36 @@ app.controller("MembCtrl",
       //$scope.user = user;
 
       $scope.members = members;
+      $rootScope.header = post.username + "'s Page";
+
+
+
+
+
+
+
+
+
 
 
       $scope.updateUserInfo = function(user)
       {
-        alert(user);
+
+        var bannerText = $scope.bannerText;
+        var textCol = $scope.hexPicker.textCol;
+        var bannerBack = $scope.hexPicker.color;
+        
+        //alert(textCol);
+        members.updateUserInfo( 
+        {
+          user: post.username,
+          bannerText: bannerText,
+          textCol: textCol,
+          bannerBack: bannerBack,
+        }).success(function()
+        {
+
+        });
       }
 
 
@@ -428,7 +468,16 @@ app.controller("MembCtrl",
           }
         }
 
-        return userList[i].banner.sprite;
+        if (userList[i].banner.sprite === "none")
+        {
+          return '';
+        }
+        else
+        {
+          return userList[i].banner.sprite;
+        }        
+
+      
      }
 
 
@@ -538,7 +587,33 @@ app.controller("PostsCtrl",
      //$scope.lalala = "<img src='http://www.smogon.com/media/forums/data/avatars/m/67/67440.jpg.m.1434660905' />";
 
 
+       $scope.getSprite = function(user)
+     {
+      
+        var i = 0;
+        while(i < userList.length)
+        {
+          if (user === userList[i].username)
+          {
+            break;
+          }
+          else
+          {
+            i++;
+          }
+        }
 
+        if (userList[i].banner.sprite === "none")
+        {
+          return '';
+        }
+        else
+        {
+          return userList[i].banner.sprite;
+        }        
+
+      
+     }
 
 
 

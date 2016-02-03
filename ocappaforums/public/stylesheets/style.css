@@ -175,9 +175,11 @@ a
 
 }
 
+
 .sprite
 {
-
+	left: -1px;
+	top: -4px;
 	position: absolute;
 }
 

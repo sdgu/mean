@@ -1,9 +1,9 @@
-<html>
+<html ng-app="OCAPPAForums">
     <head>
-        <title>OCAPPA Forums</title>
+        <title ng-bind="header"></title>
         <!-- <base href="/"></base> -->
     </head>
-    <body ng-app="OCAPPAForums">
+    <body>
         <!-- https://thinkster.io/mean-stack-tutorial  -->
         <header>
             <div id="headernav">
@@ -142,7 +142,7 @@
                 <span ng-style="getBannerStyle(post.username)" class="banner wrapped" ng-Class="post.username">
 
 
-                
+
                 <img class="sprite" ng-src="{{getSprite(post.username)}}" / >
 
                   <span ng-bind="getBannerText(post.username)">
@@ -161,12 +161,24 @@
               <div class="userscontent">
               
                 <form ng-submit="updateUserInfo(post.username)">
+                  <!-- https://github.com/buberdds/angular-bootstrap-colorpicker -->
+                  <input ng-model="bannerText" placeholder="banner text"></input>
+                  <br />
+                  <input colorpicker ng-model="hexPicker.textCol" placeholder="banner text color"></input>
+                  <br />
+                  <input colorpicker ng-model="hexPicker.color" type="text" placeholder="banner background color"></input>
 
-                  <input ng-bind="bannerText" placeholder="banner text"></input>
+                  
 
                   <br />
                   <button type="submit">Save</button>
                 </form>
+
+
+
+
+
+
 
 
               </div>
@@ -270,6 +282,8 @@
             <span class="customtitle"></span>
             <div class="badges"></div>
             <span ng-style="getBannerStyle(post.author)" class="banner wrapped" ng-Class="post.author">
+
+             <img class="sprite" ng-src="{{getSprite(post.username)}}" / >
               <span ng-bind="getBannerText(post.author)">
 
               </span>
@@ -339,7 +353,10 @@
                     <span class="customtitle"></span>
                     <div class="badges"></div>
                     <span class="banner wrapped" ng-style="getBannerStyle(comment.author)" ng-Class="comment.author">
-                      <span ng-bind="getBannerText(comment.author)"></span>
+                      <span ng-bind="getBannerText(comment.author)">
+                         <img class="sprite" ng-src="{{getSprite(post.username)}}" / >
+
+                      </span>
                       <!-- <span ng-show="comment.author == 'test'">gamma tester</span> -->
 
                     </span>
@@ -472,11 +489,13 @@
             </form>
         </script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-sanitize.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-sanitize.min.js"></script>
         <script src="/javascripts/angularApp.js"></script>
+        <script src="/javascripts/bootstrap-colorpicker-module.min.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+        <link rel="stylesheet" type="text/css" href="/stylesheets/style.css"></link>
+        <link rel="stylesheet" type="text/css" href="/stylesheets/colorpicker.min.css">
         </link>
     </body>
 </html>
