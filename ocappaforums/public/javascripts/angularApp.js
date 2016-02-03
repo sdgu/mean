@@ -368,7 +368,9 @@ app.controller("MembCtrl",
 
 
 
-
+      $scope.bannerText = post.banner.text;
+      $scope.textCol = post.banner.textCol;
+      $scope.backColor = post.banner.backgroundCol;
 
 
 
@@ -379,8 +381,8 @@ app.controller("MembCtrl",
       {
 
         var bannerText = $scope.bannerText;
-        var textCol = $scope.hexPicker.textCol;
-        var bannerBack = $scope.hexPicker.color;
+        var textCol = $scope.textCol;
+        var bannerBack = $scope.backColor;
         
         //alert(textCol);
         members.updateUserInfo( 
@@ -589,7 +591,7 @@ app.controller("PostsCtrl",
 
        $scope.getSprite = function(user)
      {
-      
+
         var i = 0;
         while(i < userList.length)
         {
