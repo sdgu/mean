@@ -1,0 +1,136 @@
+<html>
+<head>
+  <title>Banner Viewer</title>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-sanitize.min.js"></script>
+
+  <script src="/js/bootstrap-colorpicker-module.min.js"></script>
+  <script src="/js/smogonpostbit.js"></script>
+
+
+  <link rel="stylesheet" href="http://www.smogon.com/media/forums/stylesheets/forums.css"></link>
+  <link rel="stylesheet" href="/css/colorpicker.min.css"></link>
+
+
+  <style>
+  table
+  {
+    margin-top: 10px;
+  }
+  td
+  {
+    padding-right: 10px;
+    padding-top: 10px;
+  }
+  #exporting
+  {
+    width: 400px;
+  }
+  </style>
+
+</head>
+<body ng-app="flapperNews" ng-controller="MainCtrl">
+
+  <div id="content">
+    <div class="pageWidth">
+      <div class="pageContent">
+
+        <div class="messageUserInfo" itemscope="itemscope" itemtype="http://data-vocabulary.org/Person">
+
+          <div class="messageUserBlock">
+            <div class="avatarHolder">
+              <span class="helper"></span>
+              <a href="" class="avatar Av110102m" data-avatarhtml="true"><img ng-src="{{avvy}}" width="96" height="96" alt="" /></a>
+            </div>
+            <h3 class="userText">
+              <a href="" class="username" itemprop="name">Vanilla</a>
+              <em class="userTitle" itemprop="title"></em>
+
+              <em class="userBanner wrapped" ng-style="theStyle" itemprop="title">
+                <span class="before">
+
+                  <img ng-src="{{spr}}" />
+
+                </span>
+                <strong ng-bind="bannerText"></strong>
+                <span class="after"></span>
+              </em>
+            </h3>
+            <div class="extraUserInfo">
+              <dl class="pairsJustified">
+                <dt>Joined:</dt>
+                <dd>Oct 7, 2011</dd>
+              </dl>
+              <dl class="pairsJustified">
+                <dt>Messages:</dt>
+                <dd><a href="search/member?user_id=110102" class="concealed">4,146</a></dd>
+              </dl>
+              <!---->
+            </div>
+            <span class="arrow"><span></span></span>
+          </div>
+
+
+
+
+
+
+
+
+
+          <table>
+            <tr>
+              <td>Banner Text: </td>
+              <td>Text Color: </td>
+              <td>Background Color: </td>
+              <td>Avatar Url: </td>
+            </tr>
+            <tr>
+              <td><input ng-model="bannerText"></input></td>
+              <td><input colorpicker ng-model="textColor"></input></td>
+              <td><input colorpicker ng-model="backColor"></input></td>
+              <td><input ng-model="avatar"></input></td>
+            </tr>
+            <tr>
+              <td>Pokemon Sprite: </td>
+              <td>Badges soom maybe </td>
+              <td>Hovertext (for export)</td>
+
+            </tr>
+            <tr>
+              <td><input ng-model="sprite" placeholder="(e.g. sneasel, no megas)"></input></td>
+              <td></td>
+              <td><input ng-model="hoverText"></input></td>
+            </tr>
+          </table>
+
+
+
+          <br />    
+
+          <button ng-click="go()">Test</button>
+
+
+          <br />
+          <br />
+
+          <div id="exporting">
+       <pre><span ng-bind="export"></span></pre>
+     </div>
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+</body>
+</html>

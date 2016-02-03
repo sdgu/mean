@@ -9,7 +9,7 @@ var mongoose = require("mongoose");
 var dburi = "mongodb://<user>:<pass>@ds039145.mongolab.com:39145/ocappa";
 var connextion = mongoose.connect(dburi);
 //var posts = 
-require("./models/posts");
+require("./models/threads");
 //var comments = 
 require("./models/comments");
 require("./models/users");
