@@ -52,6 +52,7 @@ router.post("/register", function(req, res, next)
 
 	user.banner.backgroundCol = "#f0f0f0";
 	user.misc.postCount = 0;
+	user.misc.rank = "user";
 	//var d = new Date();
 	user.misc.joinDate = Date();
 

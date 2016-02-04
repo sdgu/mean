@@ -346,6 +346,9 @@ function dateParse(date, tzone)
 
 
 
+
+
+
 app.controller("MembCtrl",
   [
     "$rootScope",
@@ -389,7 +392,8 @@ app.controller("MembCtrl",
         var hoverText = $scope.hoverText;
         var sprite = $scope.sprite;
         var avatar = $scope.avatar;
-        
+
+
         //alert(textCol);
         members.updateUserInfo( 
         {
