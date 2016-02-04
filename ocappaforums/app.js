@@ -4,11 +4,17 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+require("./env.js");
+
+var dbuser = process.env.USER;
+var dbpass = process.env.PASS;
+
 
 var mongoose = require("mongoose");
-var dburi = "mongodb://<user>:<pass>@ds039145.mongolab.com:39145/ocappa";
+var dburi = "mongodb://" + dbuser + ":" + dbpass + "@ds039145.mongolab.com:39145/ocappa";
 var connextion = mongoose.connect(dburi);
 //var posts = 
+
 require("./models/threads");
 //var comments = 
 require("./models/comments");
