@@ -1,6 +1,6 @@
-body 
+body, html 
 {
-    padding: 30px;
+    padding: 20px;
     font: 14px;
     font-family: Ubuntu, sans-serif;
     background-color: #f2f2f2;
@@ -17,7 +17,10 @@ textarea
     width: 100%;
     min-height: 300px;
 }
-
+button 
+{
+	font-family: Ubuntu, sans-serif;
+}
 a 
 {
   color: #00B7FF;
@@ -114,6 +117,7 @@ h4
 	bottom: 10px;
 	right: 10px;
 	position: relative;
+	margin-left: 180px;
 
 
 }
@@ -182,6 +186,11 @@ h4
 
 }
 
+.sprite
+{
+
+}
+
 .spriteContainer
 {
 	display: flex;
@@ -190,8 +199,9 @@ h4
 	width: 32px;
 	height: 32px;
 	position: absolute;
-	top: -4px;
-	left: -1px;
+	top: -5px;
+	left: -2px;
+
 }
 
 .sprite img
@@ -199,12 +209,18 @@ h4
 /*	left: 1px;
 	top: -4px;*/
 	/*position: absolute;*/
-	margin-left: auto;
+/*	margin-left: auto;
 	margin-right: auto;
-
+*/
 }
 
+.textContainer
+{
+	/*margin-left: 32px;*/
+	min-height: 18px;
+	word-wrap: break-word;
 
+}
 
 .avatar
 {
@@ -254,7 +270,7 @@ h4
 
 	margin-left: -6px;
 	margin-right: -6px;
-	font-size: 14px;
+	font-size: 12px;
 
 } 
 
@@ -275,3 +291,20 @@ nav
 {
 	padding-right: 10px;
 }
+
+
+
+
+
+
+
+.OCAPPAForums md-content {
+  background-color: transparent !important; }
+  .OCAPPAForums md-content md-tabs {
+    background: #f6f6f6;
+    border: 1px solid #e1e1e1; }
+    .OCAPPAForums md-content md-tabs md-tabs-wrapper {
+      background: white; }
+  .OCAPPAForums md-content h1:first-child {
+    margin-top: 0; }
+

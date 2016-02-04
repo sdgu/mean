@@ -1,4 +1,4 @@
-var app = angular.module('OCAPPAForums', ["ui.router", "ngSanitize", "colorpicker.module"]);
+var app = angular.module('OCAPPAForums', ["ui.router", "ngSanitize", "colorpicker.module", "ngMaterial"]);
 
 
 app.factory("auth", ["$http", "$window", function($http, $window)
@@ -370,7 +370,7 @@ app.controller("MembCtrl",
       $rootScope.header = post.username + "'s Page";
 
 
-
+      $scope.about = post.misc.about;
 
       $scope.bannerText = post.banner.text;
       $scope.textCol = post.banner.textCol;
@@ -381,7 +381,7 @@ app.controller("MembCtrl",
 
       $scope.avatar = post.misc.avatar;
 
-
+      $scope.permission = "You do not have permission.";
 
       $scope.updateUserInfo = function(user)
       {
@@ -392,8 +392,14 @@ app.controller("MembCtrl",
         var hoverText = $scope.hoverText;
         var sprite = $scope.sprite;
         var avatar = $scope.avatar;
+        var about = $scope.about;
 
-
+        if (bannerText.length > 16)
+        {
+          alert("16 chars or fewer. " + (bannerText.length - 16) + " chars over.");
+        }
+        else
+        {
         //alert(textCol);
         members.updateUserInfo( 
         {
@@ -404,11 +410,13 @@ app.controller("MembCtrl",
           hoverText: hoverText,
           sprite: sprite,
           avatar: avatar,
+          about: about,
         }).success(function()
         {
 
         });
       }
+    }
 
 {
      //  var userList = [];
@@ -613,6 +621,30 @@ app.controller("PostsCtrl",
           userList = json;
         }
       });
+
+      $scope.hasAuth = function()
+      {
+        if (($scope.post.author === $scope.currentUser()) || ($scope.currentUser() === "Lemonade"))
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+
+      $scope.hasPostAuth = function(author)
+      {
+        if ((author === $scope.currentUser()) || ($scope.currentUser() === "Lemonade"))
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
 
       //alert(userList.toSource());
 

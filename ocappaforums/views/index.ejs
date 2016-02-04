@@ -124,7 +124,9 @@
 
           <h3>Profile of user <span ng-bind="post.username"></span></h3>
    
-          <span ng-bind="potato"></span>
+
+
+
 
           <div class="posts">
             <div class="userspostbit">
@@ -147,7 +149,9 @@
                       <img max-width="32" max-height="32" ng-src="{{post.banner.sprite}}" / >
                     </div>
 
-                    <span ng-attr-title="{{post.banner.hover}}" ng-bind="post.banner.text">
+                    <div class="textContainer">
+                      <span ng-attr-title="{{post.banner.hover}}" ng-bind="post.banner.text">
+                    </div>
                   </span>
 
                   </span>
@@ -164,61 +168,90 @@
               <div class="userscontent">
                 <!-- https://github.com/buberdds/angular-bootstrap-colorpicker -->
 
-                <form ng-show="currentUser() == post.username" ng-submit="updateUserInfo(post.username)">
+          <div ng-cloak>
+            <md-content>
+              <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="Info">
+                  <md-content class="md-padding"><span ng-bind="about"></span></md-content>
+                </md-tab>
+                <md-tab label="Edit Profile">
+                  <md-content class="md-padding">
 
-                  <h4>Banner Text</h4>
-                  <input ng-model="bannerText" placeholder="banner text"></input>
-                  <h4>Hover Text</h4>
-                  <input ng-model="hoverText"></input>
-                  <h4>Text Color</h4>
-                  <input colorpicker colorpicker-position="right" ng-model="textCol" placeholder="banner text color"></input>
-                  <h4>Background Color</h4>
-                  <input colorpicker colorpicker-position="right" ng-model="backColor" placeholder="banner background color"></input>
-                  
-                  <h4>Banner Sprite URL (http://www.smogon.com/dex/media/sprites/xyicons/_.png)</h4>
-                  <input ng-model="sprite"></input> 
-                  <h4>Avatar URL</h4>
-                  <input ng-model="avatar"></input>
+                      <span ng-hide="currentUser() == post.username" ng-bind="permission"></span>
+
+                      <form ng-show="currentUser() == post.username" ng-submit="updateUserInfo(post.username)">
+
+                      <h4>Banner Text</h4>
+                      <input ng-model="bannerText" placeholder="banner text"></input>
+                      <h4>Hover Text</h4>
+                      <input ng-model="hoverText"></input>
+                      <h4>Text Color</h4>
+                      <input colorpicker colorpicker-position="right" ng-model="textCol" placeholder="banner text color"></input>
+                      <h4>Background Color</h4>
+                      <input colorpicker colorpicker-position="right" ng-model="backColor" placeholder="banner background color"></input>
+                      
+                      <h4>Banner Sprite URL http://www.smogon.com/dex/media/sprites/xyicons/_.png</h4>
+                      <input ng-model="sprite"></input> 
+                      <h4>Avatar URL</h4>
+                      <input ng-model="avatar"></input>
+                      <h4>About yourself</h4>
+                      <textarea ng-model="about"></textarea>
 
 
-                  <!-- <table class="updateUserInfo">
-                    <tr>
-                      <td><h4>Banner Text</h4></td>
-                      <td><h4>Text Color</h4></td>
-                      <td><h4>Background Color</h4></td>
+                      <!-- <table class="updateUserInfo">
+                        <tr>
+                          <td><h4>Banner Text</h4></td>
+                          <td><h4>Text Color</h4></td>
+                          <td><h4>Background Color</h4></td>
 
-                    </tr>
-                    <tr>
-                      <td><input ng-model="bannerText" placeholder="banner text"></input></td>
-                      <td><input colorpicker ng-model="textCol" placeholder="banner text color"></input></td>
-                      <td><input colorpicker ng-model="backColor" placeholder="banner background color"></input></td>
-                    </tr>
-                    <tr>
-                      <td><h4>Hover Text</h4></td>
-                      <td><h4>Banner Sprite URL</h4></td>
-                      <td><h4>Avatar URL</h4></td>
-                    </tr>
-                    <tr>
-                      <td><input ng-model="hoverText"></input></td>
-                      <td><input ng-model="sprite"></input></td> 
-                      <td><input ng-model="avatar"></input></td>
-                    </tr>
-                  </table> -->
+                        </tr>
+                        <tr>
+                          <td><input ng-model="bannerText" placeholder="banner text"></input></td>
+                          <td><input colorpicker ng-model="textCol" placeholder="banner text color"></input></td>
+                          <td><input colorpicker ng-model="backColor" placeholder="banner background color"></input></td>
+                        </tr>
+                        <tr>
+                          <td><h4>Hover Text</h4></td>
+                          <td><h4>Banner Sprite URL</h4></td>
+                          <td><h4>Avatar URL</h4></td>
+                        </tr>
+                        <tr>
+                          <td><input ng-model="hoverText"></input></td>
+                          <td><input ng-model="sprite"></input></td> 
+                          <td><input ng-model="avatar"></input></td>
+                        </tr>
+                      </table> -->
 
-                  
-                  
-                  
-                  
-                  
-                  
+                      
+                      
+                      
+                      
+                      
+                      
 
-                  
-                  <br />
-                  <br />
-                  <button type="submit">Save</button>
-                </form>
+                      
+                      <br />
+                      <br />
+                      <button type="submit">Save</button>
+                      <br />
+                      Note: images are not hosted here.
+                    </form>
 
-                Note: images are not hosted here.
+                    
+
+
+
+
+                  </md-content>
+                </md-tab>
+              </md-tabs>
+            </md-content>
+          </div>
+
+
+                
+
+                
 
 
 
@@ -377,7 +410,7 @@
 
           <div class="miscDeets">
             <span ng-bind="post.date"></span>
-            <a href="" ng-show="loggedInMatch && !editingTitle && !editing && !amEditingPost" ng-click="editOP()">Edit</a>
+            <a href="" ng-show="hasAuth() && !editingTitle && !editing && !amEditingPost" ng-click="editOP()">Edit</a>
           </div>
         </div>
  </div>
@@ -456,7 +489,7 @@
           <div class="miscDeets">
             <span ng-bind="comment.date"></span>
 
-            <a href="" ng-show="(comment.author === currentUser()) && !amEditingPost && !editing && !editingTitle" ng-click="testf(comment)">Edit</a>
+            <a href="" ng-show="hasPostAuth(comment.author) && !amEditingPost && !editing && !editingTitle" ng-click="testf(comment)">Edit</a>
           </div>
         </div>
  </div>
@@ -542,13 +575,20 @@
             </form>
         </script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-animate.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-aria.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-sanitize.min.js"></script>
-        <script src="/javascripts/angularApp.js"></script>
+        
         <script src="/javascripts/bootstrap-colorpicker-module.min.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.3/angular-material.min.js"></script>
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+        <script src="/javascripts/angularApp.js"></script>
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.3/angular-material.min.css">
+        
+        <link rel="stylesheet" type="text/css" href="/stylesheets/colorpicker.min.css"></link>
         <link rel="stylesheet" type="text/css" href="/stylesheets/style.css"></link>
-        <link rel="stylesheet" type="text/css" href="/stylesheets/colorpicker.min.css">
-        </link>
+
     </body>
 </html>

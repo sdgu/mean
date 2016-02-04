@@ -25,7 +25,8 @@ var UserSchema = new mongoose.Schema(
 		joinDate: String,
 		badges: [String],
 		signature: String,
-		rank: String
+		rank: String,
+		about: String
 	},
 	hash: String,
 	salt: String

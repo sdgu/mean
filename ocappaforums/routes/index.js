@@ -439,7 +439,7 @@ router.post("/updateComment", auth, function(req, res, next)
 
 router.post("/updateUserInfo", auth, function(req, res, next)
 {
-	console.log(req.body.bannerText);
+	//console.log(req.body.bannerText);
 
 	User.findOneAndUpdate(
 	{
@@ -451,7 +451,8 @@ router.post("/updateUserInfo", auth, function(req, res, next)
 		"banner.backgroundCol": req.body.bannerBack,
 		"banner.hover": req.body.hoverText,
 		"banner.sprite": req.body.sprite,
-		"misc.avatar": req.body.avatar
+		"misc.avatar": req.body.avatar,
+		"misc.about": req.body.about,
 
 	}, function(err, docs)
 	{
